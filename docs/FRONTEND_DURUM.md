@@ -13,6 +13,15 @@
 - Açıkça etiketli örnek veri modu ve ayrı gerçek API istemcisi.
 - Mobil ve masaüstü düzeni; klavye odağı, modal içinde odak dolaşımı ve azaltılmış hareket tercihi.
 
+## Çalışma alanı iyileştirmeleri
+
+- Masaüstünde sol gezinme menüsü; mobilde açılır menü. Kapalı mobil menü klavye ve erişilebilirlik ağacından çıkarılır.
+- Genel bakış, atölye ve sonuç hazır olduktan sonra ortak değerlendirmeye geçiş.
+- Örnek senaryoya, yöntem rehberine ve bağlantı ayarlarına menüden erişim.
+- Mevcut girdiye ve sonuca bağlı özet kartları; örnek istatistik veya yapay kullanım sayısı yok.
+- Sonuçlarda kısa metin, somut malzeme, sözlü etkileşim ve tüm yöntemler filtresi.
+- Üyeliksiz çalışma alanı. Authentication ve authorization eklenmedi; gerçek hesap veya özel veri akışı henüz yok. Giriş ekranı sunucu tarafında yetki kontrolünün yerine geçmez.
+
 ## Yapılan kontroller
 
 - TypeScript kontrolü ve Vite üretim derlemesi geçti.

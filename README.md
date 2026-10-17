@@ -27,6 +27,12 @@ npm run build
 
 `npm run build` TypeScript kontrolü ve üretim derlemesini çalıştırır. Testler şema/girdi kontrolleridir; öğrenme, pedagojik doğruluk veya canlı model başarısı testi değildir.
 
+## Öğretmen çalışma alanı
+
+Sol menü genel bakış, atölye, sonuçtan sonra açılan ortak değerlendirme, örnek senaryo, yöntem rehberi ve bağlantı ayarlarına erişir. Mobilde açılır menü kullanılır. Etkinlik yöntemleri sonuç ekranında filtrelenebilir. Özet kartları formdaki durumu yansıtır; yapay kullanım istatistiği gösterilmez.
+
+Bu sürüm üyeliksizdir. Authentication (kimlik doğrulama), authorization (erişim yetkisi), hesap kaydı ve kullanıcıya özel kalıcı veri bulunmaz. Giriş ekranı eklemek sunucuda yetki kontrolünün yerine geçmez. İleride hesap veya özel veri ihtiyacı olursa backend ile birlikte gerçek erişim denetimi tasarlanır.
+
 ## Arayüz akışı
 
 1. Kazanım, yaş, etkinlik başına süre, malzeme ve erişim koşullarını girin.

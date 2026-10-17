@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { ArrowDown, ArrowRight, BookOpen, Check, CheckCheck, ChevronDown, ChevronRight, CircleHelp, Clock3, FlaskConical, GraduationCap, Leaf, LoaderCircle, MessageCircle, Monitor, Plus, Printer, RefreshCw, Settings2, ShieldCheck, Sparkles, Target, TriangleAlert, Wifi, X, Blocks, PlugZap } from 'lucide-react'
 import type { Activity, ActivityRequest, ActivityResponse, FieldError, Method, Mode } from './types.ts'
+import Sidebar from './components/Sidebar.tsx'
+import type { Section } from './components/Sidebar.tsx'
+import { Menu, LayoutDashboard } from 'lucide-react'
 import { API_BASE_URL, ENDPOINT, GenerationError, generateActivities } from './lib/api.ts'
 import { validateRequest } from './lib/validation.ts'
 import sampleRequest from './data/request.example.json'
@@ -55,6 +58,9 @@ export default function App() {
   const [answerOpen, setAnswerOpen] = useState(false)
   const [edited, setEdited] = useState(false)
   const [canceled, setCanceled] = useState(false)
+  const [mobileMenu, setMobileMenu] = useState(false)
+  const [activeSection, setActiveSection] = useState<Section>('overview')
+  const [activeMethod, setActiveMethod] = useState<Method | 'all'>('all')
   const controller = useRef<AbortController | null>(null)
   const requestId = useRef(0)
   const resultsRef = useRef<HTMLElement>(null)
@@ -62,11 +68,11 @@ export default function App() {
 
   useEffect(() => () => controller.current?.abort(), [])
   useEffect(() => {
-    if (!help && !settings) return
+    if (!help && !settings && !mobileMenu) return
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     const close = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') { setHelp(false); setSettings(false) }
+      if (event.key === 'Escape') { setHelp(false); setSettings(false); setMobileMenu(false) }
       if (event.key === 'Tab') {
         const focusable = document.querySelector('[role="dialog"]')?.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input:not(:disabled), textarea:not(:disabled)')
         if (!focusable?.length) return
@@ -77,18 +83,25 @@ export default function App() {
     }
     window.addEventListener('keydown', close)
     return () => { window.removeEventListener('keydown', close); document.body.style.overflow = previousOverflow }
-  }, [help, settings])
+  }, [help, settings, mobileMenu])
 
   function invalidate() {
     requestId.current += 1
     controller.current?.abort()
     setEdited(result !== null || edited)
-    setResult(null); setError(null); setFields([]); setStatus('idle'); setAnswerOpen(false); setCanceled(false)
+    setResult(null); setError(null); setFields([]); setStatus('idle'); setAnswerOpen(false); setCanceled(false); setActiveMethod('all'); setActiveSection('workshop')
   }
   function update(next: ActivityRequest) { invalidate(); setInput(next) }
+  function navigate(section: Section) {
+    setActiveSection(section); setMobileMenu(false)
+    window.setTimeout(() => document.getElementById(section)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0)
+  }
+  function openHelp() { setMobileMenu(false); setHelp(true) }
+  function openSettings() { setMobileMenu(false); setSettings(true) }
   function chooseMode(next: Mode) { if (next !== mode) { invalidate(); setMode(next) } }
   function loadExample() {
     invalidate(); setInput(structuredClone(sampleRequest)); setMaterial(''); setEdited(false)
+    setActiveMethod('all'); setActiveSection('workshop'); setMobileMenu(false)
     goalRef.current?.focus()
   }
   function addMaterial() {
@@ -134,20 +147,26 @@ export default function App() {
 
   return <>
     <a className="skip-link" href="#workshop">Atölyeye geç</a>
-    <header className="site-header">
-      <a className="brand" href="#" aria-label="EşdeğerDers ana sayfa"><span className="brand-symbol"><span /><span /><span /></span><span>Eşdeğer<span className="brand-light">Ders</span><small>HER SINIF İÇİN BİR YOL</small></span></a>
-      <nav aria-label="Ana gezinme"><a className="nav-active" href="#workshop">Etkinlik atölyesi</a><button type="button" onClick={() => setHelp(true)}>Nasıl çalışır?</button></nav>
-      <button className={`connection-badge ${mode === 'api' ? 'api-mode' : ''}`} onClick={() => setSettings(true)} type="button"><span className="tiny-dot" />{mode === 'mock' ? 'Örnek veri modu' : 'Canlı API modu'}<Settings2 size={14} /></button>
+    <Sidebar activeSection={activeSection} hasResult={result !== null} mobileOpen={mobileMenu} onClose={() => setMobileMenu(false)} onNavigate={navigate} onExample={loadExample} onHelp={openHelp} onSettings={openSettings} />
+    {mobileMenu && <button type="button" className="sidebar-scrim" aria-label="Menüyü kapat" onClick={() => setMobileMenu(false)} />}
+    <header className="site-header workspace-header">
+      <div className="topbar-start"><button className="mobile-menu-button" type="button" aria-label="Gezinme menüsünü aç" aria-expanded={mobileMenu} aria-controls="workspace-sidebar" onClick={() => setMobileMenu(true)}><Menu size={21} /></button><span className="workspace-breadcrumb"><LayoutDashboard size={16} />Öğretmen alanı<ChevronRight size={13} /><strong>{activeSection === 'overview' ? 'Genel bakış' : activeSection === 'assessment' ? 'Ortak değerlendirme' : 'Etkinlik atölyesi'}</strong></span><span className="mobile-wordmark">EşdeğerDers</span></div>
+      <div className="topbar-actions"><button className="topbar-help" type="button" onClick={openHelp}><CircleHelp size={16} /><span>Rehber</span></button><button className={`connection-badge ${mode === 'api' ? 'api-mode' : ''}`} onClick={openSettings} type="button"><span className="tiny-dot" />{mode === 'mock' ? 'Örnek veri modu' : 'Canlı API modu'}<Settings2 size={14} /></button></div>
     </header>
 
     <main>
-      <section className="hero" aria-labelledby="hero-heading">
-        <div className="hero-copy"><div className="eyebrow"><span />ÖĞRETMENİN YANINDA, SINIFIN İÇİNDE</div><h1 id="hero-heading">Tek kazanım.<br /><em>Birden çok yol.</em></h1><p>Sınıfınızın olanaklarından yola çıkın. Aynı kazanımı<br className="desktop-break" /> koruyan üç farklı etkinliğe birlikte yer açalım.</p><a href="#workshop" className="hero-link">Kendi sınıfınızdan başlayın <ArrowDown size={16} /></a></div>
+      <section className="hero" id="overview" aria-labelledby="hero-heading">
+        <div className="hero-copy"><div className="eyebrow"><span />ÖĞRETMENİN YANINDA, SINIFIN İÇİNDE</div><h1 id="hero-heading">Tek kazanım.<br /><em>Birden çok yol.</em></h1><p>Sınıfınızın olanaklarından yola çıkın. Aynı kazanımı<br className="desktop-break" /> koruyan üç farklı etkinliğe birlikte yer açalım.</p><button type="button" onClick={() => navigate('workshop')} className="hero-link">Kendi sınıfınızdan başlayın <ArrowDown size={16} /></button></div>
         <JourneyArt />
       </section>
 
       <div className="process-strip" aria-label="Üç adımda etkinlik hazırlama"><span><b>01</b>Sınıfınızı tanımlayın</span><ChevronRight size={15}/><span><b>02</b>Üç farklı yolu keşfedin</span><ChevronRight size={15}/><span><b>03</b>Aynı kazanımı değerlendirin</span><span className="sdg"><Leaf size={16} />Nitelikli eğitim · SDG 4</span></div>
 
+      <section className="workspace-summary" aria-label="Atölye özeti">
+        <div className="summary-item"><span className="summary-icon"><Target size={20} /></span><div><span>ÖĞRENME HEDEFİ</span><strong>{input.learning_objective.trim() ? 'Kazanımınız tanımlı' : 'Kazanımınızı belirleyin'}</strong><p>{input.learning_objective.trim() ? 'Üç yöntemde de aynı hedef korunur.' : 'İlk adım, öğrencinin ne öğreneceği.'}</p></div></div>
+        <div className="summary-item"><span className="summary-icon sand"><Clock3 size={20} /></span><div><span>ETKİNLİK BAŞINA</span><strong>{Number.isInteger(input.duration_minutes_per_activity) && input.duration_minutes_per_activity > 0 ? `${input.duration_minutes_per_activity} dakika` : 'Süreyi belirleyin'}</strong><p>Her bir etkinliğin üst süre sınırı.</p></div></div>
+        <div className="summary-item"><span className="summary-icon lilac"><GraduationCap size={21} /></span><div><span>ATÖLYENİZİN DURUMU</span><strong>{status === 'loading' ? 'Hazırlanıyor' : result ? '3 etkinlik hazır' : 'Yeni bir başlangıç'}</strong><p>{result ? 'Ortak değerlendirmeyi inceleyebilirsiniz.' : 'Koşulları paylaşın, yolları keşfedin.'}</p></div></div>
+      </section>
       <div className="workshop" id="workshop">
         <aside className="form-panel" aria-labelledby="form-heading">
           <div className="panel-title"><span className="icon-circle"><Settings2 size={19} /></span><div><h2 id="form-heading">Sınıfınızın koşulları</h2><p>İyi bir etkinlik, sınıfını tanır.</p></div></div>
@@ -178,8 +197,9 @@ export default function App() {
           {status === 'loading' ? <div className="loading-state"><div className="loading-mark"><Sparkles size={28} /></div><h3>{mode === 'mock' ? 'Örnek atölye açılıyor' : 'Sınıfınıza uygun yollar hazırlanıyor'}</h3><p>{mode === 'mock' ? 'Kayıtlı senaryo ve etkinlikler yükleniyor.' : 'Üç etkinlik ve ortak değerlendirme için model yanıtı bekleniyor.'}</p><div className="skeleton-grid">{[1, 2, 3].map(n => <div className="skeleton" key={n}><i /><i /><i /><i /></div>)}</div></div> : result ? <>
             <div className="result-banner"><CheckCheck size={19} /><div><strong>{mode === 'mock' ? 'Kayıtlı örnek senaryo' : 'Etkinlikler hazır'}</strong><p>{mode === 'mock' ? 'Bu içerik temsili veridir; canlı model üretimi değildir.' : 'Uygulamadan önce içerikleri öğretmen olarak gözden geçirin.'}</p></div></div>
             <div className="objective-summary"><Target size={18} /><div><span>ORTAK KAZANIM</span><p>{result.learning_objective}</p></div></div>
-            <div className="activity-grid">{(['reading', 'hands_on', 'oral'] as Method[]).map((method, index) => <ActivityCard key={method} activity={result.activities.find(a => a.method === method)!} index={index} />)}</div>
-            <section className="assessment" aria-labelledby="assessment-heading"><div className="assessment-icon"><GraduationCap size={25} /></div><div className="assessment-content"><div className="eyebrow section-eyebrow">ÜÇ YOLUN ORTAK NOKTASI</div><h3 id="assessment-heading">Aynı kazanımı birlikte değerlendirin</h3><p className="assessment-question">{result.common_assessment.question}</p><button type="button" className="answer-toggle" onClick={() => setAnswerOpen(!answerOpen)} aria-expanded={answerOpen} aria-controls="answer-content"><ShieldCheck size={16} />Öğretmen için cevap anahtarı<ChevronDown size={16} className={answerOpen ? 'rotate' : ''} /></button>{answerOpen && <div id="answer-content" className="answer-content"><h4>Beklenen cevap</h4><p>{result.common_assessment.expected_answer}</p><h4>Değerlendirme ölçütleri</h4><ul>{result.common_assessment.evaluation_criteria.map((item, i) => <li key={i}><Check size={15} />{item}</li>)}</ul></div>}</div></section>
+            <div className="method-filter" role="group" aria-label="Etkinlik yöntemini filtrele"><button type="button" aria-pressed={activeMethod === 'all'} onClick={() => setActiveMethod('all')}>Tüm yöntemler <span>3</span></button>{(['reading', 'hands_on', 'oral'] as Method[]).map(method => { const Icon = methodInfo[method].icon; return <button type="button" key={method} aria-pressed={activeMethod === method} onClick={() => setActiveMethod(method)}><Icon size={14} />{methodInfo[method].eyebrow}</button> })}</div>
+            <div className={`activity-grid ${activeMethod !== 'all' ? 'single-method' : ''}`}>{(['reading', 'hands_on', 'oral'] as Method[]).map((method, index) => activeMethod === 'all' || activeMethod === method ? <ActivityCard key={method} activity={result.activities.find(a => a.method === method)!} index={index} /> : null)}</div>
+            <section className="assessment" id="assessment" aria-labelledby="assessment-heading"><div className="assessment-icon"><GraduationCap size={25} /></div><div className="assessment-content"><div className="eyebrow section-eyebrow">ÜÇ YOLUN ORTAK NOKTASI</div><h3 id="assessment-heading">Aynı kazanımı birlikte değerlendirin</h3><p className="assessment-question">{result.common_assessment.question}</p><button type="button" className="answer-toggle" onClick={() => setAnswerOpen(!answerOpen)} aria-expanded={answerOpen} aria-controls="answer-content"><ShieldCheck size={16} />Öğretmen için cevap anahtarı<ChevronDown size={16} className={answerOpen ? 'rotate' : ''} /></button>{answerOpen && <div id="answer-content" className="answer-content"><h4>Beklenen cevap</h4><p>{result.common_assessment.expected_answer}</p><h4>Değerlendirme ölçütleri</h4><ul>{result.common_assessment.evaluation_criteria.map((item, i) => <li key={i}><Check size={15} />{item}</li>)}</ul></div>}</div></section>
             <div className="teacher-notes"><ShieldCheck size={19} /><div><h3>Son söz öğretmende</h3><ul>{result.teacher_notes.map((note, i) => <li key={i}>{note}</li>)}</ul><p>Biçim ve süre kontrolü, pedagojik doğruluk veya öğrenme etkisi garantisi değildir.</p></div></div>
           </> : status !== 'error' && <div className="empty-state"><span className="empty-icon"><BookOpen size={31} /><span><Sparkles size={14} /></span></span><h3>Her sınıfın olanakları farklı.<br />Öğrenme hedefi ortak.</h3><p>Soldaki alanları doldurun; kısa metin, somut malzeme<br className="desktop-break" /> ve sözlü etkileşimle üç farklı yolu keşfedin.</p><div className="method-previews">{Object.entries(methodInfo).map(([key, info]) => <div key={key} className={`method-preview ${info.color}`}><info.icon size={22} /><strong>{info.name}</strong><span>{info.eyebrow}</span></div>)}</div><button className="empty-example" type="button" onClick={loadExample}>Nereden başlayacağınızı bilmiyor musunuz?<span>3/4 örneğini yükleyin <ArrowRight size={15} /></span></button><div className="empty-note"><ShieldCheck size={17} /><p>Etkinlikleri siz değerlendirirsiniz.<br />EşdeğerDers, öğretmenin kararını destekler.</p></div></div>}
         </section>
