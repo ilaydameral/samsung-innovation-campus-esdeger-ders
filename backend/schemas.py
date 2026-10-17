@@ -17,7 +17,7 @@ class Activity(TextModel):
     yontem: Literal['reading', 'hands_on', 'oral']
     hedef_kazanim: str
     kullanilan_malzemeler: list[str]
-    tahmini_sure_dakika: int = Field(gt=0, strict=True)
+    tahmini_sure_dakika: int = Field(ge=1, strict=True)
     uygulama_adimlari: list[str] = Field(min_length=1)
     beklenen_ogrenci_davranisi: str
 

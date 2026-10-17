@@ -25,11 +25,23 @@ Frontend varsayılan v2 promptunu ister. v1 baseline backend’de korunur. Döne
 - Python önbellekleri ve .venv repodan hariç tutulur; kurulum için requirements.lock kaydedildi.
 
 ## Doğrulama
-30 frontend testi ve 16 backend testi ile üretim derlemesi geçti. Backend testlerinde test sağlayıcısı kullanıldı. Değişen malzeme listesinin prompta taşınması, v1/v2 seçimi, şema hataları, CORS ve güvenli hata yanıtları denetlendi. Başarılı fixture yanıtı frontend adapter testlerinden geçti.
+30 frontend testi ve 17 backend testi ile üretim derlemesi geçti. Backend testlerinde test sağlayıcısı kullanıldı. Değişen malzeme listesinin prompta taşınması, v1/v2 seçimi, şema hataları, CORS ve güvenli hata yanıtları denetlendi. Başarılı fixture yanıtı frontend adapter testlerinden geçti.
 
-Gerçek model anahtarı henüz bu ortamda yapılandırılmadı. Bu nedenle Gemini çıktısının niteliği, gerçek gecikme/kota ve malzeme uyarlama başarısı henüz doğrulanmadı. Gerçek deneme sırası `GERCEK_SENARYO_DOGRULAMA.md` içindedir. 16 testte geçen sahte sağlayıcı çıktıları canlı model kanıtı diye raporlanmamalıdır.
+İlk entegrasyonda anahtar yapılandırılmamıştı. 17 Ekim canlı denemelerinde temel üretim ve malzeme azaltma HTTP 200 döndü; ayrıntılar aşağıda. Bu küçük deneme seti pedagojik doğruluğu veya hizmet güvenilirliğini kanıtlamaz. Gerçek deneme sırası `GERCEK_SENARYO_DOGRULAMA.md` içindedir. 16 testte geçen sahte sağlayıcı çıktıları canlı model kanıtı diye raporlanmamalıdır.
 
 ## Kalan canlı deneme
 Yerel .env dosyasına anahtarı ekle → backend’i yeniden başlat → sağlık kontrolü → frontend canlı API modunda üret → taşları kaldırarak yeniden üret → önce/sonra karşılaştır → kaynak ve öğretmen incelemesi → yazdırma. Anahtarı GitHub’a veya sohbete koymayın.
 
 Yerel HTTP/tarayıcı kontrolü: Gerçek uvicorn sunucusu /health için status=ok ve model_configured=false döndürdü. Frontend, yeni endpoint üzerinden sunucuya ulaşıp MODEL_NOT_CONFIGURED hatasını Türkçe gösterdi; örnek yanıta geçmedi. Bu kontrol gerçek frontend–FastAPI bağlantısını doğrular, Gemini üretimini doğrulamaz.
+
+## 17 Ekim 2026 — ilk gerçek Gemini denemeleri
+- Yerel anahtar dosyası yapılandırıldı; dosya Git dışındadır, içeriği bu kayda eklenmedi. Model: gemini-3.8-flash.
+- İlk deneme SDK şema dönüşümünde, ağ çağrısından önce durdu: pozitif tamsayı için exclusiveMinimum üretilmesi desteklenmiyordu. Süre koşulu ge=1 yapıldı; geçerli süre kümesi değişmedi. Gerçek SDK serileştirmesini ağ kullanmayan HTTP test transportuyla sınayan regresyon testi eklendi.
+- Temel 3/4 senaryosu: HTTP 200, yaklaşık 20.11 saniye; üç yöntem, süreler 10/10/8 dakika. Kayıtlı örnek yanıt kullanılmadı.
+- Arayüzden temel canlı üretim de tamamlandı; mevcut etkinlik kartları ve öğretmen notu açıldı.
+- Arayüzde taşları kaldırma isteğinin bir denemesi hizmet hatası aldı. Önceki plan korundu. Otomatik başarı ya da örnek veri geçişi yapılmadı.
+- Azaltılmış malzemeli ayrı canlı tekrar: HTTP 200, yaklaşık 24.97 saniye; üç yöntemde yalnız 1 kâğıt/1 kalem veya ek malzeme yok. Somut etkinlik taş gruplamadan kâğıt katlamaya değişti.
+- İçerik incelemesi: ilk temel yanıtta doğru adımlarla çelişen “dörderli grup” ifadesi; azaltılmış yanıtta ölçüt açıklamasında seçilen parça sayısı için yanlışlıkla “payda” denmesi görüldü. Bu yanıtlar doğruluğu onaylanmış öğretim materyali değildir. Öğretmen incelemesi ve düzeltme gerekir.
+- Bunlar az sayıda teknik denemedir; öğrenme eşdeğerliği, zaman tasarrufu veya SDG etkisi ölçümü değildir. Kalıcı anahtar, öğrenci kişisel bilgisi ve ham sağlayıcı hatası kayda veya repoya eklenmedi.
+
+Arayüzdeki azaltılmış malzemeli tekrar da başarıyla tamamlandı. Önceki ve sonraki sütunlarda iki gerçek API yanıtı görüntülendi; taş gruplama etkinliği yalnız kâğıt/kalem kullanan katlama etkinliğine dönüştü. Son arayüz yanıtının açılan cevap anahtarında 4 eş parça payda, seçilen 3 parça pay olarak doğru açıklanıyordu. Önceki hatalı örnekler bu başarıyla geçersiz sayılmadı.

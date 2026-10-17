@@ -90,3 +90,32 @@ def test_baseline_prompt_remains_available(client):
     assert result.status_code == 200
     assert result.json()['prompt_version_used'] == 'v1'
     assert 'Sen bir öğretmen asistanısın' in generate.call_args.kwargs['config'].system_instruction
+
+
+def test_real_sdk_serializes_output_schema_and_parses_response_without_network():
+    # Exercise Google's real request transformer; HTTP transport is test-only.
+    import httpx
+    from google import genai
+    from google.genai import types
+    from backend.schemas import EsdegerDersResponse
+    captured = []
+
+    def transport(request):
+        captured.append(json.loads(request.content))
+        return httpx.Response(200, json={'candidates': [{'content': {'role': 'model', 'parts': [{'text': json.dumps(fixture)}]}, 'finishReason': 'STOP'}]})
+
+    async def run():
+        http = httpx.AsyncClient(transport=httpx.MockTransport(transport))
+        sdk = genai.Client(api_key='TEST_NOT_A_REAL_KEY', http_options=types.HttpOptions(httpx_async_client=http))
+        try:
+            result = await sdk.aio.models.generate_content(model='gemini-3.8-flash', contents='TEST FIXTURE ONLY',
+                config=types.GenerateContentConfig(response_mime_type='application/json', response_schema=EsdegerDersResponse))
+            assert isinstance(result.parsed, EsdegerDersResponse)
+            assert len(result.parsed.etkinlikler) == 3
+        finally:
+            await sdk.aio.aclose()
+            sdk.close()
+
+    asyncio.run(run())
+    assert len(captured) == 1
+    assert 'exclusiveMinimum' not in json.dumps(captured[0])

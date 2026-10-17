@@ -4,7 +4,7 @@
 
 ## Mevcut durum
 
-İlayda’nın React + TypeScript + Vite frontend’i ile Kağan’ın FastAPI + Gemini backend’i aynı projede birleştirildi. Frontend, backend’in Türkçe JSON alanlarını ekran veri yapısına dönüştürür. Varsayılan mod kayıtlı örnek veridir. Gerçek model üretimi için backend ortamında GEMINI_API_KEY gerekir; anahtar yoksa sunucu sağlık kontrolünü açar, üretim isteğine açık yapılandırma hatası döner. Canlı model başarısı henüz doğrulanmadı.
+İlayda’nın React + TypeScript + Vite frontend’i ile Kağan’ın FastAPI + Gemini backend’i aynı projede birleştirildi. Frontend, backend’in Türkçe JSON alanlarını ekran veri yapısına dönüştürür. Varsayılan mod kayıtlı örnek veridir. Gerçek model üretimi için backend ortamında GEMINI_API_KEY gerekir; anahtar yoksa sunucu sağlık kontrolünü açar, üretim isteğine açık yapılandırma hatası döner. İlk canlı denemelerde temel üretim ve malzeme azaltma yanıtı alındı; bazı model yanıtlarında içerik tutarsızlıkları görüldü. Öğretmen incelemesi gereklidir. Ayrıntılar `docs/BACKEND_ENTEGRASYON.md` içindedir.
 
 ## Çalıştırma
 
