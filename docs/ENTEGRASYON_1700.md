@@ -1,3 +1,5 @@
+> Güncel entegrasyon: Kağan’ın backend’i birleştirildi. Aşağıdaki önceki durum notlarının yerine mevcut bağlantı için [BACKEND_ENTEGRASYON.md](BACKEND_ENTEGRASYON.md) ve kök README kullanılmalıdır.
+
 # 17 Ekim 17.00 entegrasyon görüşmesi
 
 ## İlk netleştirilecek görev sınırı

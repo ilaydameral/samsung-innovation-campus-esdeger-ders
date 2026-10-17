@@ -1,10 +1,11 @@
 import type { ActivityRequest, ActivityResponse, FieldError, Mode } from '../types.ts'
 import { parseResponse } from './validation.ts'
+import { fromBackendResponse, toBackendRequest } from './backendAdapter.ts'
 import sampleRequest from '../data/request.example.json'
 import sampleResponse from '../data/response.example.json'
 
 export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
-export const ENDPOINT = '/api/generate-activities'
+export const ENDPOINT = '/api/esdeger-ders/generate'
 
 export class GenerationError extends Error {
   code: string
@@ -38,7 +39,7 @@ export async function generateActivities(input: ActivityRequest, mode: Mode, sig
     response = await fetch(`${API_BASE_URL}${ENDPOINT}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(input),
+      body: JSON.stringify(toBackendRequest(input)),
       signal,
     })
   } catch (error) {
@@ -65,11 +66,14 @@ export async function generateActivities(input: ActivityRequest, mode: Mode, sig
       CONSTRAINTS_UNSATISFIABLE: 'Bu koşullarda üç uygun etkinlik hazırlanamadı. Süreyi, malzemeleri veya kazanımı gözden geçirin.',
       MODEL_OUTPUT_INVALID: 'Üretilen içerik beklenen kontrolleri geçemedi. Yeniden deneyebilirsiniz.',
       MODEL_UNAVAILABLE: 'Üretim hizmeti şu anda kullanılamıyor. Biraz sonra yeniden deneyin.',
+      MODEL_NOT_CONFIGURED: 'Backend çalışıyor ancak Gemini API anahtarı yapılandırılmamış. Anahtarı yalnız backend ortamına ekleyin.',
+      MODEL_AUTH_ERROR: 'Gemini erişimi doğrulanamadı. Backend anahtarı ve API izinlerini kontrol edin.',
+      MODEL_RATE_LIMITED: 'Gemini istek sınırına ulaşıldı. Biraz bekleyip yeniden deneyin.',
       MODEL_TIMEOUT: 'Üretim beklenenden uzun sürdü. Yeniden deneyebilirsiniz.',
     }
     throw new GenerationError(messages[code] || `İstek tamamlanamadı (${response.status}). Yeniden deneyebilirsiniz.`, code, fields)
   }
-  try { return parseResponse(data, input) } catch (error) {
+  try { return fromBackendResponse(data, input) } catch (error) {
     throw new GenerationError(`Sunucu yanıtı gösterilemedi. ${error instanceof Error ? error.message : ''}`, 'MODEL_OUTPUT_INVALID')
   }
 }

@@ -4,7 +4,7 @@
 
 ## Mevcut durum
 
-İlayda’nın frontend’i React + TypeScript + Vite ile hazırlanıyor. Kağan’ın Python + FastAPI backend’i ve Gemini bağlantısı bu klasöre henüz eklenmedi. Varsayılan mod kayıtlı örnek veridir; gerçek AI üretimi gibi gösterilmez. Frontend gerçek backend’e bağlanacak istemciyi de içerir.
+İlayda’nın React + TypeScript + Vite frontend’i ile Kağan’ın FastAPI + Gemini backend’i aynı projede birleştirildi. Frontend, backend’in Türkçe JSON alanlarını ekran veri yapısına dönüştürür. Varsayılan mod kayıtlı örnek veridir. Gerçek model üretimi için backend ortamında GEMINI_API_KEY gerekir; anahtar yoksa sunucu sağlık kontrolünü açar, üretim isteğine açık yapılandırma hatası döner. Canlı model başarısı henüz doğrulanmadı.
 
 ## Çalıştırma
 
@@ -41,21 +41,37 @@ Bu sürüm üyeliksizdir. Authentication (kimlik doğrulama), authorization (eri
 4. Ortak değerlendirmeyi ve öğretmen için açılan cevap anahtarını inceleyin.
 5. Bir girdiyi veya modu değiştirince önceki çıktı kaldırılır.
 
-## Kağan ile entegrasyon
+## Backend’i çalıştırma ve entegrasyon
 
-1. `docs/contracts/` altındaki istek ve yanıt alanlarını birlikte kesinleştirin.
-2. FastAPI’de `POST /api/generate-activities` endpoint’i aynı alanlarla yanıt vermeli.
-3. Frontend’de `.env.example` dosyasını `.env.local` olarak kopyalayıp yalnız backend adresini ayarlayın:
+Python 3.12 önerilir. Proje kökünde ayrı terminal açın:
 
-```dotenv
-VITE_API_BASE_URL=http://127.0.0.1:8000
+```sh
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r backend/requirements.lock
+cp .env.example .env
 ```
 
-4. Ortam ayarı değişince Vite’ı yeniden başlatın.
-5. Sağ üstteki bağlantı menüsünden **Canlı API** seçin. Bu seçim bağlantı testi değildir; gerçek üretim isteği backend’i sınar.
-6. Backend’in CORS ayarında frontend’in gerçek origin’ine izin verin (örn. `http://127.0.0.1:5173`; `localhost` kullanılıyorsa o origin de ayrıca).
+`.env` zaten varsa kopyalama adımını atlayın. GEMINI_API_KEY değerini yalnız bu yerel dosyaya ekleyin; anahtarı sohbete veya repoya göndermeyin. GEMINI_MODEL varsayılanı `gemini-3.8-flash`; erişim hesabınıza bağlıdır.
 
-Gemini API anahtarı yalnız backend’de tutulur. `VITE_` ile başlayan ayarlar tarayıcıya açıktır; bu alanlara gizli anahtar yazmayın. API hatasında örnek yanıta sessiz geçiş yoktur. İstemci 60 saniye sonra beklemeyi bırakır; bu, sunucuda başlamış model çağrısını veya maliyeti kesin olarak durdurmaz.
+```sh
+.venv/bin/python -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
+```
+
+`.env` değişince backend’i durdurup yeniden başlatın. API dokümanı http://127.0.0.1:8000/docs, sağlık kontrolü http://127.0.0.1:8000/health. Sağlık yanıtındaki `model_configured`, anahtarın mevcut olduğunu söyler; geçerli olduğunu veya kotayı doğrulamaz.
+
+Frontend varsayılan olarak bu adrese `POST /api/esdeger-ders/generate` gönderir. Farklı adres için `frontend/.env.example` dosyasını `frontend/.env.local` olarak kopyalayıp VITE_API_BASE_URL ayarlayın, sonra Vite’ı yeniden başlatın. Sağ üst menüden **Canlı API** seçin; mod seçimi tek başına bağlantı testi değildir.
+
+`sure_dakika`, her alternatif etkinlik için ayrı üst sınırdır; toplam ders süresine bölünmez. `yontem` kodları reading, hands_on, oral’dır. API’nin Türkçe alanları `frontend/src/lib/backendAdapter.ts` içinde mevcut ekranlara eşlenir. Yaştan sınıf seviyesi uydurulmaz. Her etkinliğin kazanımı ve süresi ayrıca doğrulanır. Kaynakların anlamsal uygunluğu öğretmen incelemesi gerektirir.
+
+CORS varsayılanı localhost ve 127.0.0.1 için 5173 portudur; farklı frontend origin’i CORS_ORIGINS ortam değişkeniyle ekleyin. API hatasında örnek yanıta sessiz geçiş yoktur. Backend model isteğine 45 saniye sınır koyar; frontend 60 saniye bekler. İptal/timeout sağlayıcıdaki işlemin veya ücretin kesin durduğunu garanti etmez.
+
+```sh
+.venv/bin/python -m pytest backend/tests -q
+```
+
+Backend testleri gerçek Gemini yerine test sağlayıcısı kullanır. Paylaşılan sabit JSON hem backend hem frontend sözleşme testlerinde kullanılır; model üretimi veya sınıf başarısı kanıtı değildir. Notebook entegrasyon örneklerini gösterir; uygulamayı başlatmak için notebook çalıştırmanız gerekmez.
+
+SDK ve model belgeleri: [Google Gen AI SDK](https://googleapis.github.io/python-genai/), [Gemini 3.8 Flash](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash).
 
 ## Dosyalar ve sorumluluklar
 
@@ -63,10 +79,13 @@ Gemini API anahtarı yalnız backend’de tutulur. `VITE_` ile başlayan ayarlar
 - `frontend/src/styles.css`: masaüstü ve mobil görünüm.
 - `frontend/src/types.ts`: frontend veri tipleri.
 - `frontend/src/lib/api.ts`: örnek veri ve gerçek API istemcisi.
+- `frontend/src/lib/backendAdapter.ts`: Türkçe backend sözleşmesi ve ekran tipleri arasında eşleştirme.
+- `backend/`: FastAPI uygulaması, Gemini istemcisi, promptlar ve şemalar.
+- `backend/tests/`: test sağlayıcısıyla backend kontrolleri ve paylaşılan yanıt örneği.
 - `frontend/src/lib/validation.ts`: girdi ve gelen yanıtın yapısal kontrolleri.
 - `frontend/src/data/`: mevcut JSON taslağının örnekleri.
 - `frontend/tests/`: sözleşmeyi bozan yanıtlar için kontroller.
-- `docs/contracts/`: Kağan’a iletilecek anlaşma ve örnekler.
+- `docs/contracts/`: ilk frontend sözleşme taslağı; mevcut wire sözleşmesi için `docs/BACKEND_ENTEGRASYON.md` kullanın.
 - `docs/ENTEGRASYON_1700.md`: toplantı ve birleştirme kontrol listesi.
 
 ## Eğitim ve etik
