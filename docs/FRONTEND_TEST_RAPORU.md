@@ -61,3 +61,6 @@ Yanıt: okuma/işaretleme, kâğıtta sınıflandırma ve sözlü/bedensel ayrı
 - Anahtar yalnız yerel .env içindedir; test raporunda veya commit’te yer almaz.
 
 Kağan yeni backend değişiklikleri eklediğinde yeniden kontrol: `npm test`, `npm run build`, farklı kazanımla canlı üretim, malzeme azaltma ve karşılaştırma. Alanları değiştirdiyse `backendAdapter.ts` ve paylaşılan fixture birlikte güncellenmelidir.
+
+## Ek kontrol: yapay PDF örnekleri
+Kullanıcının isteğiyle `output/pdf/` altında öğrenci (1 sayfa) ve öğretmen (2 sayfa) referans PDF’leri oluşturuldu. Aynı kayıtlı örnek ve uygulamanın gerçek `createPrintPlan` fonksiyonu kullanıldı. PDF metin ayrımı denetlendi ve üç sayfanın render edilmiş görüntüsü gözle incelendi; taşma ve eksik Türkçe karakter görülmedi. PDF’ler ReportLab ile ayrı üretildi. Bu kontrol, yukarıdaki tarayıcıdan PDF kaydetme kontrolünü tamamlanmış saymaz; veri ayrımı ve bu referans dosyaların düzenini doğrular. Açıklamalar `output/pdf/README.md` içindedir.
