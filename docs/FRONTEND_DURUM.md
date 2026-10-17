@@ -47,3 +47,6 @@ Runtime kontrolü yapısal alanları, yöntemleri ve süreyi denetler; yönerged
 Sonuçlardan **Çıktı hazırla** ile öğrenci soru kâğıdı veya öğretmen planı açılır. Öğrenci çıktısı yalnız soru ve boş cevap alanını içerir; kazanım metni ve öğretmene yönelik etkinlik adımları cevap içerebildiği için eklenmez. Öğretmen çıktısı üç yöntemi, cevap anahtarını, ölçütleri ve notları içerir. Ekrandaki yöntem filtresi çıktı kapsamını değiştirmez. Her çıktıda örnek veri / AI üretimi bilgisi korunur.
 
 **Yazdır / PDF** tarayıcının yazdırma penceresini açar; PDF kaydı tarayıcının sunduğu seçenektir. Üretim için internet/API gerekir; hazırlanan kâğıt sınıfta ekransız kullanılabilir. Bu, uygulamanın çevrimdışı AI üretimi yaptığı anlamına gelmez. Öğrenci soru metninin uygunluğunu dağıtmadan önce öğretmen kontrol etmelidir.
+
+## Sınıfta uygulanabilirlik incelemesi
+Sonuç ekranına kaynak taraması, uygulanacak yöntem seçimi ve üç öğretmen kontrolü eklendi. JSON sözleşmesi değişmedi; yeni API/model çağrısı yok. Kontroller oturum içi ve seçilen yönteme bağlıdır. Malzeme eşleşmesi ve sözcük taraması öğretmenin incelemesine yardımcı olur; pedagojik doğruluğu ya da eşdeğer öğrenmeyi doğrulamaz. Canlı deneme planı: `GERCEK_SENARYO_DOGRULAMA.md`.

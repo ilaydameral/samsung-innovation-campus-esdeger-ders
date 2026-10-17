@@ -3,6 +3,7 @@ import type { FormEvent } from 'react'
 import { ArrowDown, ArrowRight, BookOpen, Check, CheckCheck, ChevronDown, ChevronRight, CircleHelp, Clock3, FlaskConical, GraduationCap, Leaf, LoaderCircle, MessageCircle, Monitor, Plus, Printer, RefreshCw, Settings2, ShieldCheck, Sparkles, Target, TriangleAlert, Wifi, X, Blocks, PlugZap } from 'lucide-react'
 import type { Activity, ActivityRequest, ActivityResponse, FieldError, Method, Mode } from './types.ts'
 import Sidebar from './components/Sidebar.tsx'
+import ClassroomReview from './components/ClassroomReview.tsx'
 import PrintPreview from './components/PrintPreview.tsx'
 import type { Section } from './components/Sidebar.tsx'
 import { Menu, LayoutDashboard } from 'lucide-react'
@@ -165,7 +166,7 @@ export default function App() {
       <div className="process-strip" aria-label="Üç adımda etkinlik hazırlama"><span><b>01</b>Sınıfınızı tanımlayın</span><ChevronRight size={15}/><span><b>02</b>Üç farklı yolu keşfedin</span><ChevronRight size={15}/><span><b>03</b>Aynı kazanımı değerlendirin</span><span className="sdg"><Leaf size={16} />Nitelikli eğitim · SDG 4</span></div>
 
       <section className="workspace-summary" aria-label="Atölye özeti">
-        <div className="summary-item"><span className="summary-icon"><Target size={20} /></span><div><span>ÖĞRENME HEDEFİ</span><strong>{input.learning_objective.trim() ? 'Kazanımınız tanımlı' : 'Kazanımınızı belirleyin'}</strong><p>{input.learning_objective.trim() ? 'Üç yöntemde de aynı hedef korunur.' : 'İlk adım, öğrencinin ne öğreneceği.'}</p></div></div>
+        <div className="summary-item"><span className="summary-icon"><Target size={20} /></span><div><span>ÖĞRENME HEDEFİ</span><strong>{input.learning_objective.trim() ? 'Kazanımınız tanımlı' : 'Kazanımınızı belirleyin'}</strong><p>{input.learning_objective.trim() ? 'Üç yöntem bu kazanım için hazırlanır.' : 'İlk adım, öğrencinin ne öğreneceği.'}</p></div></div>
         <div className="summary-item"><span className="summary-icon sand"><Clock3 size={20} /></span><div><span>ETKİNLİK BAŞINA</span><strong>{Number.isInteger(input.duration_minutes_per_activity) && input.duration_minutes_per_activity > 0 ? `${input.duration_minutes_per_activity} dakika` : 'Süreyi belirleyin'}</strong><p>Her bir etkinliğin üst süre sınırı.</p></div></div>
         <div className="summary-item"><span className="summary-icon lilac"><GraduationCap size={21} /></span><div><span>ATÖLYENİZİN DURUMU</span><strong>{status === 'loading' ? 'Hazırlanıyor' : result ? '3 etkinlik hazır' : 'Yeni bir başlangıç'}</strong><p>{result ? 'Ortak değerlendirmeyi inceleyebilirsiniz.' : 'Koşulları paylaşın, yolları keşfedin.'}</p></div></div>
       </section>
@@ -199,6 +200,7 @@ export default function App() {
           {status === 'loading' ? <div className="loading-state"><div className="loading-mark"><Sparkles size={28} /></div><h3>{mode === 'mock' ? 'Örnek atölye açılıyor' : 'Sınıfınıza uygun yollar hazırlanıyor'}</h3><p>{mode === 'mock' ? 'Kayıtlı senaryo ve etkinlikler yükleniyor.' : 'Üç etkinlik ve ortak değerlendirme için model yanıtı bekleniyor.'}</p><div className="skeleton-grid">{[1, 2, 3].map(n => <div className="skeleton" key={n}><i /><i /><i /><i /></div>)}</div></div> : result ? <>
             <div className="result-banner"><CheckCheck size={19} /><div><strong>{mode === 'mock' ? 'Kayıtlı örnek senaryo' : 'Etkinlikler hazır'}</strong><p>{mode === 'mock' ? 'Bu içerik temsili veridir; canlı model üretimi değildir.' : 'Uygulamadan önce içerikleri öğretmen olarak gözden geçirin.'}</p></div></div>
             <div className="objective-summary"><Target size={18} /><div><span>ORTAK KAZANIM</span><p>{result.learning_objective}</p></div></div>
+            <ClassroomReview request={input} response={result} onChooseMethod={setActiveMethod} />
             <div className="print-entry"><div><Printer size={20} /><div><strong>Hazırladıklarınızı sınıfa taşıyın</strong><p>Öğrenci soru kâğıdı veya cevap anahtarlı öğretmen planı.</p></div></div><button type="button" onClick={() => setPrintOpen(true)}>Çıktı hazırla <ArrowRight size={15} /></button></div>
             <div className="method-filter" role="group" aria-label="Etkinlik yöntemini filtrele"><button type="button" aria-pressed={activeMethod === 'all'} onClick={() => setActiveMethod('all')}>Tüm yöntemler <span>3</span></button>{(['reading', 'hands_on', 'oral'] as Method[]).map(method => { const Icon = methodInfo[method].icon; return <button type="button" key={method} aria-pressed={activeMethod === method} onClick={() => setActiveMethod(method)}><Icon size={14} />{methodInfo[method].eyebrow}</button> })}</div>
             <div className={`activity-grid ${activeMethod !== 'all' ? 'single-method' : ''}`}>{(['reading', 'hands_on', 'oral'] as Method[]).map((method, index) => activeMethod === 'all' || activeMethod === method ? <ActivityCard key={method} activity={result.activities.find(a => a.method === method)!} index={index} /> : null)}</div>
