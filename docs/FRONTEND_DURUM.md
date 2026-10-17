@@ -41,3 +41,9 @@ Bu kontroller gerçek Gemini çağrısı, backend entegrasyonu, pedagojik doğru
 - Prompt karşılaştırma sonuçları, PDF rapor, İngilizce sunum ve video.
 
 Runtime kontrolü yapısal alanları, yöntemleri ve süreyi denetler; yönergede gizli malzeme veya pedagojik hata olmadığını garanti etmez. API başarısızlığında örnek yanıta sessiz geçiş yapılmaz.
+
+## Yazdırılabilir sınıf çıktısı
+
+Sonuçlardan **Çıktı hazırla** ile öğrenci soru kâğıdı veya öğretmen planı açılır. Öğrenci çıktısı yalnız soru ve boş cevap alanını içerir; kazanım metni ve öğretmene yönelik etkinlik adımları cevap içerebildiği için eklenmez. Öğretmen çıktısı üç yöntemi, cevap anahtarını, ölçütleri ve notları içerir. Ekrandaki yöntem filtresi çıktı kapsamını değiştirmez. Her çıktıda örnek veri / AI üretimi bilgisi korunur.
+
+**Yazdır / PDF** tarayıcının yazdırma penceresini açar; PDF kaydı tarayıcının sunduğu seçenektir. Üretim için internet/API gerekir; hazırlanan kâğıt sınıfta ekransız kullanılabilir. Bu, uygulamanın çevrimdışı AI üretimi yaptığı anlamına gelmez. Öğrenci soru metninin uygunluğunu dağıtmadan önce öğretmen kontrol etmelidir.

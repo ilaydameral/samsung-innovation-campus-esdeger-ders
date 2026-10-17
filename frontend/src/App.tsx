@@ -3,6 +3,7 @@ import type { FormEvent } from 'react'
 import { ArrowDown, ArrowRight, BookOpen, Check, CheckCheck, ChevronDown, ChevronRight, CircleHelp, Clock3, FlaskConical, GraduationCap, Leaf, LoaderCircle, MessageCircle, Monitor, Plus, Printer, RefreshCw, Settings2, ShieldCheck, Sparkles, Target, TriangleAlert, Wifi, X, Blocks, PlugZap } from 'lucide-react'
 import type { Activity, ActivityRequest, ActivityResponse, FieldError, Method, Mode } from './types.ts'
 import Sidebar from './components/Sidebar.tsx'
+import PrintPreview from './components/PrintPreview.tsx'
 import type { Section } from './components/Sidebar.tsx'
 import { Menu, LayoutDashboard } from 'lucide-react'
 import { API_BASE_URL, ENDPOINT, GenerationError, generateActivities } from './lib/api.ts'
@@ -55,6 +56,7 @@ export default function App() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [settings, setSettings] = useState(false)
   const [help, setHelp] = useState(false)
+  const [printOpen, setPrintOpen] = useState(false)
   const [answerOpen, setAnswerOpen] = useState(false)
   const [edited, setEdited] = useState(false)
   const [canceled, setCanceled] = useState(false)
@@ -68,11 +70,11 @@ export default function App() {
 
   useEffect(() => () => controller.current?.abort(), [])
   useEffect(() => {
-    if (!help && !settings && !mobileMenu) return
+    if (!help && !settings && !mobileMenu && !printOpen) return
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     const close = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') { setHelp(false); setSettings(false); setMobileMenu(false) }
+      if (event.key === 'Escape') { setHelp(false); setSettings(false); setMobileMenu(false); setPrintOpen(false) }
       if (event.key === 'Tab') {
         const focusable = document.querySelector('[role="dialog"]')?.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input:not(:disabled), textarea:not(:disabled)')
         if (!focusable?.length) return
@@ -83,13 +85,13 @@ export default function App() {
     }
     window.addEventListener('keydown', close)
     return () => { window.removeEventListener('keydown', close); document.body.style.overflow = previousOverflow }
-  }, [help, settings, mobileMenu])
+  }, [help, settings, mobileMenu, printOpen])
 
   function invalidate() {
     requestId.current += 1
     controller.current?.abort()
     setEdited(result !== null || edited)
-    setResult(null); setError(null); setFields([]); setStatus('idle'); setAnswerOpen(false); setCanceled(false); setActiveMethod('all'); setActiveSection('workshop')
+    setPrintOpen(false); setResult(null); setError(null); setFields([]); setStatus('idle'); setAnswerOpen(false); setCanceled(false); setActiveMethod('all'); setActiveSection('workshop')
   }
   function update(next: ActivityRequest) { invalidate(); setInput(next) }
   function navigate(section: Section) {
@@ -197,6 +199,7 @@ export default function App() {
           {status === 'loading' ? <div className="loading-state"><div className="loading-mark"><Sparkles size={28} /></div><h3>{mode === 'mock' ? 'Örnek atölye açılıyor' : 'Sınıfınıza uygun yollar hazırlanıyor'}</h3><p>{mode === 'mock' ? 'Kayıtlı senaryo ve etkinlikler yükleniyor.' : 'Üç etkinlik ve ortak değerlendirme için model yanıtı bekleniyor.'}</p><div className="skeleton-grid">{[1, 2, 3].map(n => <div className="skeleton" key={n}><i /><i /><i /><i /></div>)}</div></div> : result ? <>
             <div className="result-banner"><CheckCheck size={19} /><div><strong>{mode === 'mock' ? 'Kayıtlı örnek senaryo' : 'Etkinlikler hazır'}</strong><p>{mode === 'mock' ? 'Bu içerik temsili veridir; canlı model üretimi değildir.' : 'Uygulamadan önce içerikleri öğretmen olarak gözden geçirin.'}</p></div></div>
             <div className="objective-summary"><Target size={18} /><div><span>ORTAK KAZANIM</span><p>{result.learning_objective}</p></div></div>
+            <div className="print-entry"><div><Printer size={20} /><div><strong>Hazırladıklarınızı sınıfa taşıyın</strong><p>Öğrenci soru kâğıdı veya cevap anahtarlı öğretmen planı.</p></div></div><button type="button" onClick={() => setPrintOpen(true)}>Çıktı hazırla <ArrowRight size={15} /></button></div>
             <div className="method-filter" role="group" aria-label="Etkinlik yöntemini filtrele"><button type="button" aria-pressed={activeMethod === 'all'} onClick={() => setActiveMethod('all')}>Tüm yöntemler <span>3</span></button>{(['reading', 'hands_on', 'oral'] as Method[]).map(method => { const Icon = methodInfo[method].icon; return <button type="button" key={method} aria-pressed={activeMethod === method} onClick={() => setActiveMethod(method)}><Icon size={14} />{methodInfo[method].eyebrow}</button> })}</div>
             <div className={`activity-grid ${activeMethod !== 'all' ? 'single-method' : ''}`}>{(['reading', 'hands_on', 'oral'] as Method[]).map((method, index) => activeMethod === 'all' || activeMethod === method ? <ActivityCard key={method} activity={result.activities.find(a => a.method === method)!} index={index} /> : null)}</div>
             <section className="assessment" id="assessment" aria-labelledby="assessment-heading"><div className="assessment-icon"><GraduationCap size={25} /></div><div className="assessment-content"><div className="eyebrow section-eyebrow">ÜÇ YOLUN ORTAK NOKTASI</div><h3 id="assessment-heading">Aynı kazanımı birlikte değerlendirin</h3><p className="assessment-question">{result.common_assessment.question}</p><button type="button" className="answer-toggle" onClick={() => setAnswerOpen(!answerOpen)} aria-expanded={answerOpen} aria-controls="answer-content"><ShieldCheck size={16} />Öğretmen için cevap anahtarı<ChevronDown size={16} className={answerOpen ? 'rotate' : ''} /></button>{answerOpen && <div id="answer-content" className="answer-content"><h4>Beklenen cevap</h4><p>{result.common_assessment.expected_answer}</p><h4>Değerlendirme ölçütleri</h4><ul>{result.common_assessment.evaluation_criteria.map((item, i) => <li key={i}><Check size={15} />{item}</li>)}</ul></div>}</div></section>
@@ -207,6 +210,7 @@ export default function App() {
     </main>
     <footer className="site-footer"><span><span className="footer-mark">≋</span>EşdeğerDers</span><p>Farklı olanaklar. Ortak öğrenme hedefleri.</p><span>Samsung Innovation Campus · 2026</span></footer>
 
+    {printOpen && result && <PrintPreview request={input} response={result} mode={mode} onClose={() => setPrintOpen(false)} />}
     {settings && <div className="modal-backdrop" onClick={() => setSettings(false)}><section className="dialog" role="dialog" aria-modal="true" aria-labelledby="settings-title" onClick={e => e.stopPropagation()}><div className="dialog-heading"><h2 id="settings-title">Bağlantı ayarları</h2><button autoFocus type="button" aria-label="Ayarları kapat" onClick={() => setSettings(false)}><X size={20} /></button></div><p className="dialog-intro">Arayüzü kayıtlı örnekle deneyin veya backend hazır olduğunda gerçek üretime geçin.</p><div className="mode-choices"><button type="button" className={mode === 'mock' ? 'selected' : ''} onClick={() => chooseMode('mock')} aria-pressed={mode === 'mock'}><FlaskConical size={22} /><strong>Örnek veri</strong><span>Yalnız kayıtlı 3/4 senaryosu. Model çağrısı yok.</span></button><button type="button" className={mode === 'api' ? 'selected' : ''} onClick={() => chooseMode('api')} aria-pressed={mode === 'api'}><PlugZap size={22} /><strong>Canlı API</strong><span>FastAPI sunucusuna gerçek istek gönderir.</span></button></div><div className="endpoint-info"><span>Bağlanılacak adres</span><code>{API_BASE_URL}{ENDPOINT}</code><p>Adres, frontend’in VITE_API_BASE_URL ayarıyla değişir. API anahtarı bu arayüze girilmez. Canlı API modunu seçmek sunucunun bağlı olduğunu doğrulamaz.</p></div><button className="generate-button" type="button" onClick={() => setSettings(false)}>Atölyeye dön<ArrowRight size={16} /></button></section></div>}
     {help && <div className="modal-backdrop" onClick={() => setHelp(false)}><section className="dialog help-dialog" role="dialog" aria-modal="true" aria-labelledby="help-title" onClick={e => e.stopPropagation()}><div className="dialog-heading"><h2 id="help-title">Sınıfınızdan başlayan bir atölye</h2><button autoFocus type="button" aria-label="Açıklamayı kapat" onClick={() => setHelp(false)}><X size={20} /></button></div>{[{ n: '01', title: 'Kazanımı ve koşulları paylaşın', text: 'Hedefi, öğrenci yaşını, her etkinlik için süreyi ve gerçekten erişebildiğiniz malzemeleri belirtin.' }, { n: '02', title: 'Üç farklı yöntemi inceleyin', text: 'Kısa metin, somut malzeme ve sözlü etkileşimle aynı hedefe yönelen etkinlikleri karşılaştırın.' }, { n: '03', title: 'Ortak soruyla kontrol edin', text: 'Cevap anahtarı ve ölçütlerle kazanımı değerlendirin. İçerikleri sınıfınızda kullanmadan önce doğrulayın.' }].map(item => <div className="help-step" key={item.n}><b>{item.n}</b><div><h3>{item.title}</h3><p>{item.text}</p></div></div>)}<p className="help-note"><CircleHelp size={18} />Öğrenci adı, tanısı veya özel belgesi gerekmez. Üretilen içerik öğretmen incelemesi gerektirir.</p></section></div>}
   </>
