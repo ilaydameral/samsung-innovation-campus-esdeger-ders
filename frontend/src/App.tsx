@@ -3,6 +3,8 @@ import type { FormEvent } from 'react'
 import { ArrowDown, ArrowRight, BookOpen, Check, CheckCheck, ChevronDown, ChevronRight, CircleHelp, Clock3, FlaskConical, GraduationCap, Leaf, LoaderCircle, MessageCircle, Monitor, Plus, Printer, RefreshCw, Settings2, ShieldCheck, Sparkles, Target, TriangleAlert, Wifi, X, Blocks, PlugZap } from 'lucide-react'
 import type { Activity, ActivityRequest, ActivityResponse, FieldError, Method, Mode } from './types.ts'
 import Sidebar from './components/Sidebar.tsx'
+import MaterialAdaptation from './components/MaterialAdaptation.tsx'
+import { removeUnavailableMaterials } from './lib/adaptation.ts'
 import ClassroomReview from './components/ClassroomReview.tsx'
 import PrintPreview from './components/PrintPreview.tsx'
 import type { Section } from './components/Sidebar.tsx'
@@ -64,6 +66,7 @@ export default function App() {
   const [mobileMenu, setMobileMenu] = useState(false)
   const [activeSection, setActiveSection] = useState<Section>('overview')
   const [activeMethod, setActiveMethod] = useState<Method | 'all'>('all')
+  const [adaptation, setAdaptation] = useState<{ removed: string[]; previousInput: ActivityRequest; previousResult: ActivityResponse; previousMode: Mode } | null>(null)
   const controller = useRef<AbortController | null>(null)
   const requestId = useRef(0)
   const resultsRef = useRef<HTMLElement>(null)
@@ -91,6 +94,7 @@ export default function App() {
   function invalidate() {
     requestId.current += 1
     controller.current?.abort()
+    setAdaptation(null)
     setEdited(result !== null || edited)
     setPrintOpen(false); setResult(null); setError(null); setFields([]); setStatus('idle'); setAnswerOpen(false); setCanceled(false); setActiveMethod('all'); setActiveSection('workshop')
   }
@@ -128,6 +132,9 @@ export default function App() {
       document.getElementById(ids[errors[0].field] || 'objective')?.focus()
       return
     }
+    await runGeneration(input, mode)
+  }
+  async function runGeneration(request: ActivityRequest, requestMode: Mode) {
     controller.current?.abort()
     const abort = new AbortController(); controller.current = abort
     const id = ++requestId.current
@@ -135,7 +142,7 @@ export default function App() {
     let timedOut = false
     const timer = window.setTimeout(() => { timedOut = true; abort.abort() }, 60000)
     try {
-      const response = await generateActivities(structuredClone(input), mode, abort.signal)
+      const response = await generateActivities(structuredClone(request), requestMode, abort.signal)
       if (id !== requestId.current) return
       setResult(response); setStatus('success')
       window.setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60)
@@ -145,6 +152,24 @@ export default function App() {
       const failure = timedOut ? new GenerationError('İşlem 60 saniye içinde tamamlanamadı. Yeniden deneyebilirsiniz.', 'TIMEOUT') : err instanceof GenerationError ? err : new GenerationError('Beklenmeyen bir sorun oluştu. Yeniden deneyin.')
       setError(failure); setFields(failure.fields); setStatus('error')
     } finally { window.clearTimeout(timer) }
+  }
+  function adaptMaterials(removed: string[]) {
+    if (!result || status === 'loading') return
+    const next = removeUnavailableMaterials(input, removed)
+    const previous = { removed: [...removed], previousInput: structuredClone(input), previousResult: structuredClone(result), previousMode: mode }
+    invalidate(); setInput(next); setMaterial(''); setEdited(false); setAdaptation(previous)
+    if (mode === 'api') void runGeneration(next, 'api')
+    window.setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0)
+  }
+  function startAdaptation() {
+    if (!adaptation || status === 'loading') return
+    setMode('api'); void runGeneration(input, 'api')
+  }
+  function restorePreviousPlan() {
+    if (!adaptation) return
+    const previous = adaptation
+    invalidate(); setInput(structuredClone(previous.previousInput)); setResult(structuredClone(previous.previousResult)); setMode(previous.previousMode)
+    setStatus('success'); setEdited(false); setMaterial('')
   }
   const fieldError = (name: string) => fields.find(field => field.field === name)?.message
 
@@ -194,19 +219,21 @@ export default function App() {
         <section className="results-panel" ref={resultsRef} aria-labelledby="results-heading" aria-busy={status === 'loading'}>
           <div className="results-heading"><div><div className="eyebrow section-eyebrow">AYNI HEDEF, FARKLI DENEYİMLER</div><h2 id="results-heading">Etkinlik atölyeniz</h2></div><span className="result-count">3 yöntem <span /> 1 kazanım</span></div>
           <div role="status" aria-live="polite" className="sr-only">{status === 'loading' ? 'Etkinlikler hazırlanıyor.' : status === 'success' ? 'Üç etkinlik ve ortak değerlendirme hazır.' : canceled ? 'İşlem iptal edildi.' : edited ? 'Girdi değiştiği için önceki sonuç kaldırıldı.' : ''}</div>
+          {adaptation && <section className="adaptation-status" aria-labelledby="adaptation-status-title"><h3 id="adaptation-status-title">{status === 'success' && result ? 'Yeni koşullarla plan geldi' : status === 'loading' ? 'Kalan malzemelerle yeni plan isteniyor' : 'Yeni sınıf koşulları hazır'}</h3><p><strong>Çıkarılan:</strong> {adaptation.removed.join(', ')}<br /><strong>Kalan:</strong> {input.available_materials.join(', ') || 'Malzeme yok'}<br /><strong>Korunan kazanım:</strong> {input.learning_objective}</p><p>{status === 'success' && result ? 'Yanıtın kazanım metni ve süre sınırı kontrol edildi. Çıkarılan malzemenin adımlarda hâlâ gerekip gerekmediğini kaynak taramasıyla ve öğretmen olarak inceleyin.' : mode === 'mock' ? 'Henüz yeni bir etkinlik üretilmedi. Yeni plan için çalışan backend bağlantısı ve canlı API gerekir.' : 'Bu koşullara uygun plan üretilemeyebilir. Bağlantı hatası veya iptal durumunda önceki plana dönebilirsiniz.'}</p><div>{mode === 'mock' && <button type="button" onClick={startAdaptation}>Canlı API ile yeni plan iste</button>}<button type="button" className="restore-plan" onClick={restorePreviousPlan}>{status === 'loading' ? 'İptal et ve önceki plana dön' : 'Önceki koşullara ve plana dön'}</button></div></section>}
           {error && <div className="error-panel" role="alert"><TriangleAlert size={21} /><div><h3>Bu kez tamamlayamadık</h3><p>{error.message}</p>{mode === 'api' && <small>Backend bağlantı ayarlarını sağ üstteki menüden görebilirsiniz.</small>}</div></div>}
           {edited && !result && <p className="inline-note"><RefreshCw size={15} />Koşullar değişti; önceki sonuç kaldırıldı. Yeni koşullarla yeniden hazırlayın.</p>}
           {canceled && <p className="inline-note">İşlem iptal edildi. Girdilerinizi koruduk; hazır olduğunuzda yeniden deneyebilirsiniz.</p>}
           {status === 'loading' ? <div className="loading-state"><div className="loading-mark"><Sparkles size={28} /></div><h3>{mode === 'mock' ? 'Örnek atölye açılıyor' : 'Sınıfınıza uygun yollar hazırlanıyor'}</h3><p>{mode === 'mock' ? 'Kayıtlı senaryo ve etkinlikler yükleniyor.' : 'Üç etkinlik ve ortak değerlendirme için model yanıtı bekleniyor.'}</p><div className="skeleton-grid">{[1, 2, 3].map(n => <div className="skeleton" key={n}><i /><i /><i /><i /></div>)}</div></div> : result ? <>
             <div className="result-banner"><CheckCheck size={19} /><div><strong>{mode === 'mock' ? 'Kayıtlı örnek senaryo' : 'Etkinlikler hazır'}</strong><p>{mode === 'mock' ? 'Bu içerik temsili veridir; canlı model üretimi değildir.' : 'Uygulamadan önce içerikleri öğretmen olarak gözden geçirin.'}</p></div></div>
             <div className="objective-summary"><Target size={18} /><div><span>ORTAK KAZANIM</span><p>{result.learning_objective}</p></div></div>
+            <MaterialAdaptation request={input} mode={mode} onAdapt={adaptMaterials} />
             <ClassroomReview request={input} response={result} onChooseMethod={setActiveMethod} />
             <div className="print-entry"><div><Printer size={20} /><div><strong>Hazırladıklarınızı sınıfa taşıyın</strong><p>Öğrenci soru kâğıdı veya cevap anahtarlı öğretmen planı.</p></div></div><button type="button" onClick={() => setPrintOpen(true)}>Çıktı hazırla <ArrowRight size={15} /></button></div>
             <div className="method-filter" role="group" aria-label="Etkinlik yöntemini filtrele"><button type="button" aria-pressed={activeMethod === 'all'} onClick={() => setActiveMethod('all')}>Tüm yöntemler <span>3</span></button>{(['reading', 'hands_on', 'oral'] as Method[]).map(method => { const Icon = methodInfo[method].icon; return <button type="button" key={method} aria-pressed={activeMethod === method} onClick={() => setActiveMethod(method)}><Icon size={14} />{methodInfo[method].eyebrow}</button> })}</div>
             <div className={`activity-grid ${activeMethod !== 'all' ? 'single-method' : ''}`}>{(['reading', 'hands_on', 'oral'] as Method[]).map((method, index) => activeMethod === 'all' || activeMethod === method ? <ActivityCard key={method} activity={result.activities.find(a => a.method === method)!} index={index} /> : null)}</div>
             <section className="assessment" id="assessment" aria-labelledby="assessment-heading"><div className="assessment-icon"><GraduationCap size={25} /></div><div className="assessment-content"><div className="eyebrow section-eyebrow">ÜÇ YOLUN ORTAK NOKTASI</div><h3 id="assessment-heading">Aynı kazanımı birlikte değerlendirin</h3><p className="assessment-question">{result.common_assessment.question}</p><button type="button" className="answer-toggle" onClick={() => setAnswerOpen(!answerOpen)} aria-expanded={answerOpen} aria-controls="answer-content"><ShieldCheck size={16} />Öğretmen için cevap anahtarı<ChevronDown size={16} className={answerOpen ? 'rotate' : ''} /></button>{answerOpen && <div id="answer-content" className="answer-content"><h4>Beklenen cevap</h4><p>{result.common_assessment.expected_answer}</p><h4>Değerlendirme ölçütleri</h4><ul>{result.common_assessment.evaluation_criteria.map((item, i) => <li key={i}><Check size={15} />{item}</li>)}</ul></div>}</div></section>
             <div className="teacher-notes"><ShieldCheck size={19} /><div><h3>Son söz öğretmende</h3><ul>{result.teacher_notes.map((note, i) => <li key={i}>{note}</li>)}</ul><p>Biçim ve süre kontrolü, pedagojik doğruluk veya öğrenme etkisi garantisi değildir.</p></div></div>
-          </> : status !== 'error' && <div className="empty-state"><span className="empty-icon"><BookOpen size={31} /><span><Sparkles size={14} /></span></span><h3>Her sınıfın olanakları farklı.<br />Öğrenme hedefi ortak.</h3><p>Soldaki alanları doldurun; kısa metin, somut malzeme<br className="desktop-break" /> ve sözlü etkileşimle üç farklı yolu keşfedin.</p><div className="method-previews">{Object.entries(methodInfo).map(([key, info]) => <div key={key} className={`method-preview ${info.color}`}><info.icon size={22} /><strong>{info.name}</strong><span>{info.eyebrow}</span></div>)}</div><button className="empty-example" type="button" onClick={loadExample}>Nereden başlayacağınızı bilmiyor musunuz?<span>3/4 örneğini yükleyin <ArrowRight size={15} /></span></button><div className="empty-note"><ShieldCheck size={17} /><p>Etkinlikleri siz değerlendirirsiniz.<br />EşdeğerDers, öğretmenin kararını destekler.</p></div></div>}
+          </> : status !== 'error' && !adaptation && <div className="empty-state"><span className="empty-icon"><BookOpen size={31} /><span><Sparkles size={14} /></span></span><h3>Her sınıfın olanakları farklı.<br />Öğrenme hedefi ortak.</h3><p>Soldaki alanları doldurun; kısa metin, somut malzeme<br className="desktop-break" /> ve sözlü etkileşimle üç farklı yolu keşfedin.</p><div className="method-previews">{Object.entries(methodInfo).map(([key, info]) => <div key={key} className={`method-preview ${info.color}`}><info.icon size={22} /><strong>{info.name}</strong><span>{info.eyebrow}</span></div>)}</div><button className="empty-example" type="button" onClick={loadExample}>Nereden başlayacağınızı bilmiyor musunuz?<span>3/4 örneğini yükleyin <ArrowRight size={15} /></span></button><div className="empty-note"><ShieldCheck size={17} /><p>Etkinlikleri siz değerlendirirsiniz.<br />EşdeğerDers, öğretmenin kararını destekler.</p></div></div>}
         </section>
       </div>
     </main>

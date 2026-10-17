@@ -50,3 +50,10 @@ Sonuçlardan **Çıktı hazırla** ile öğrenci soru kâğıdı veya öğretmen
 
 ## Sınıfta uygulanabilirlik incelemesi
 Sonuç ekranına kaynak taraması, uygulanacak yöntem seçimi ve üç öğretmen kontrolü eklendi. JSON sözleşmesi değişmedi; yeni API/model çağrısı yok. Kontroller oturum içi ve seçilen yönteme bağlıdır. Malzeme eşleşmesi ve sözcük taraması öğretmenin incelemesine yardımcı olur; pedagojik doğruluğu ya da eşdeğer öğrenmeyi doğrulamaz. Canlı deneme planı: `GERCEK_SENARYO_DOGRULAMA.md`.
+
+## “Bu malzeme de yok”
+Sonuç ekranında mevcut malzemelerden biri veya tamamı çıkarılabilir. Kazanım, yaş, süre ve erişim alanları korunur. Canlı modda aynı endpoint’e güncel malzeme listesiyle yeni istek gönderilir; JSON sözleşmesi değişmedi. Bu, önceki metni düzenleyen özel bir backend endpoint’i değildir; aynı hedef ve yeni koşullarla yeniden üretimdir.
+
+Örnek modunda yalnız yeni koşullar hazırlanır, sahte uyarlanmış yanıt gösterilmez. “Canlı API ile yeni plan iste” açıkça canlı moda geçip istek gönderir; çalışır backend gerektirir. Önceki koşullar ve plan oturum içinde saklanır; hata/iptal veya başarılı üretim sonrası geri dönülebilir. Geri dönüş, devam eden isteği iptal eder ve eski koşulları da geri yükler. Formda sıradan düzenleme veya mod değişikliği bu geçici geri dönüş kaydını temizler. Kalıcı kayıt veya önce/sonra karşılaştırma ekranı eklenmedi.
+
+Yeni yanıtta çıkarılan malzemelerin gerçekten gerekmemesi henüz semantik olarak garanti edilmez. Kaynak taraması ve öğretmen incelemesi yeniden yapılmalıdır.
