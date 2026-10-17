@@ -33,4 +33,4 @@
 
 ## Repo adımı
 
-İlk frontend sürümü için özel repo oluşturuldu: https://github.com/ilaydameral/esdeger-ders. İlk dal `codex/frontend`. Aynı kökte `frontend/`, Kağan’ın ekleyeceği `backend/`, `docs/`, daha sonra prompt/test dosyaları bulunabilir. Kağan’ın collaborator erişimi ve olası görünürlük değişikliği henüz yapılmadı. Anahtar, `.env.local`, `node_modules` ve üst çalışma alanının kişisel dosyaları paylaşılmamalı.
+İlk frontend sürümü için özel repo oluşturuldu: https://github.com/ilaydameral/samsung-innovation-campus-esdeger-ders. İlk dal `codex/frontend`. Aynı kökte `frontend/`, Kağan’ın ekleyeceği `backend/`, `docs/`, daha sonra prompt/test dosyaları bulunabilir. Kağan’ın collaborator erişimi ve olası görünürlük değişikliği henüz yapılmadı. Anahtar, `.env.local`, `node_modules` ve üst çalışma alanının kişisel dosyaları paylaşılmamalı.

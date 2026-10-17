@@ -71,7 +71,7 @@ Ana bağ SDG 4’tür. Kaynak kısıtlarında aynı kazanımı koruma hedeflenir
 
 Hackathon planına göre kod/prompt/README içeren GitHub reposu, repoda 1–2 sayfalık PDF rapor, İngilizce sunum ve yaklaşık beş dakikalık İngilizce sunum + canlı demo videosu hazırlanacak. Bu frontend klasörü bunların tamamının hazır olduğu anlamına gelmez. Teknik akış birleştirildikten sonra test sonuçları ve promptlar gerçek kayıtlardan eklenecek.
 
-GitHub reposu: https://github.com/ilaydameral/esdeger-ders — başlangıç erişimi özel. İlk çalışma dalı `codex/frontend`.
+GitHub reposu: https://github.com/ilaydameral/samsung-innovation-campus-esdeger-ders — başlangıç erişimi özel. İlk çalışma dalı `codex/frontend`.
 
 GitHub’a yalnız bu `esdeger-ders` proje klasörü aktarılır. Üst çalışma alanındaki sohbet araştırmaları, geçici dosyalar veya kişisel kayıtlar topluca eklenmemeli. Lisans ekipçe seçilmedi. Açık bir repo yayın izni otomatik kod lisansı oluşturmaz.
 
