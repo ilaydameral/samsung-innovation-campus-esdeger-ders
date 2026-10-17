@@ -54,6 +54,13 @@ Sonuç ekranına kaynak taraması, uygulanacak yöntem seçimi ve üç öğretme
 ## “Bu malzeme de yok”
 Sonuç ekranında mevcut malzemelerden biri veya tamamı çıkarılabilir. Kazanım, yaş, süre ve erişim alanları korunur. Canlı modda aynı endpoint’e güncel malzeme listesiyle yeni istek gönderilir; JSON sözleşmesi değişmedi. Bu, önceki metni düzenleyen özel bir backend endpoint’i değildir; aynı hedef ve yeni koşullarla yeniden üretimdir.
 
-Örnek modunda yalnız yeni koşullar hazırlanır, sahte uyarlanmış yanıt gösterilmez. “Canlı API ile yeni plan iste” açıkça canlı moda geçip istek gönderir; çalışır backend gerektirir. Önceki koşullar ve plan oturum içinde saklanır; hata/iptal veya başarılı üretim sonrası geri dönülebilir. Geri dönüş, devam eden isteği iptal eder ve eski koşulları da geri yükler. Formda sıradan düzenleme veya mod değişikliği bu geçici geri dönüş kaydını temizler. Kalıcı kayıt veya önce/sonra karşılaştırma ekranı eklenmedi.
+Örnek modunda yalnız yeni koşullar hazırlanır, sahte uyarlanmış yanıt gösterilmez. “Canlı API ile yeni plan iste” açıkça canlı moda geçip istek gönderir; çalışır backend gerektirir. Önceki koşullar ve plan oturum içinde saklanır; hata/iptal veya başarılı üretim sonrası geri dönülebilir. Geri dönüş, devam eden isteği iptal eder ve eski koşulları da geri yükler. Formda sıradan düzenleme veya mod değişikliği bu geçici geri dönüş kaydını temizler. Kalıcı kayıt eklenmedi. Oturum içi önce/sonra karşılaştırması aşağıda açıklanmıştır.
 
 Yeni yanıtta çıkarılan malzemelerin gerçekten gerekmemesi henüz semantik olarak garanti edilmez. Kaynak taraması ve öğretmen incelemesi yeniden yapılmalıdır.
+
+## Önce / sonra karşılaştırması
+Malzeme uyarlaması başlatıldığında önceki koşullar ve plan yeni koşullarla yan yana gösterilir. Yeni yanıt henüz yoksa sağ taraf açıkça bekleme durumundadır; eski etkinlik yeniymiş gibi kopyalanmaz. Başarılı yanıt geldiğinde üç yöntem ayrı ayrı seçilerek başlık, bildirilen malzemeler, süre, adımlar ve gözlemlenecek davranış karşılaştırılır. Ortak soru da açılır bölümde gösterilir. Yöntem eşleştirmesi yanıt sırası veya kimliğe göre değil `method` alanına göre yapılır.
+
+Metin değişti/aynı etiketleri anlam veya öğrenme etkisi değerlendirmesi değildir. Önceki ve sonraki yanıtların örnek veri/canlı API kaynak etiketleri bağımsızdır. Karşılaştırma yalnız mevcut uyarlama oturumundadır; geri dönüş ve normal form düzenlemesiyle temizlenir.
+
+Doğrulama: 24 birim testi ve üretim derlemesi geçti. Bekleyen karşılaştırma uygulamada; yeni yanıtla dolan görünüm açıkça yapay veri etiketli geçici test sayfasında kontrol edildi. Yöntem seçimi, aynı/değişen adımlar, soru karşılaştırması ve mobil taşma kontrol edildi. Geçici test sayfası kaldırıldı. Canlı model uyarlaması henüz doğrulanmadı.
