@@ -1,0 +1,34 @@
+# Frontend durum kaydı
+
+17 Ekim 2026. React + TypeScript + Vite frontend’i.
+
+## Hazır olanlar
+
+- Kazanım, yaş, etkinlik başına süre, malzeme ve erişim koşulları formu.
+- Malzeme ekleme/kaldırma ve internet/ekran/yazıcı seçimleri.
+- Üç yöntem için etkinlikler, süre, araçlar, adımlar ve beklenen davranış.
+- Ortak değerlendirme sorusu, açılır cevap anahtarı ve öğretmen notları.
+- Yükleniyor, iptal, boş durum, form hatası ve bağlantı hatası.
+- Girdi veya mod değişince eski yanıtı kaldırma; geç gelen yanıtın yeni durumu bozmaması için istek kimliği.
+- Açıkça etiketli örnek veri modu ve ayrı gerçek API istemcisi.
+- Mobil ve masaüstü düzeni; klavye odağı, modal içinde odak dolaşımı ve azaltılmış hareket tercihi.
+
+## Yapılan kontroller
+
+- TypeScript kontrolü ve Vite üretim derlemesi geçti.
+- Girdi/yanıt kontrolleri için 9 otomatik test geçti. Eksik alan, yanlış kazanım, yinelenen yöntem/kimlik, yanlış süre ve eksik cevap anahtarı kapsandı.
+- Tarayıcıda boş kazanım hatası, kayıtlı senaryo, üç etkinlik, cevap anahtarı, girdi değişince eski sonucun kaldırılması, örnek modunda farklı girdi reddi ve backend kapalıyken bağlantı hatası görüldü.
+- İptal ve malzeme ekleme/kaldırma denendi.
+- 1440 piksel masaüstü ve 390 piksel mobil boyutta kontrol yapıldı; mobil görünümde yatay taşma yoktu.
+
+Bu kontroller gerçek Gemini çağrısı, backend entegrasyonu, pedagojik doğruluk veya kullanıcı faydası kanıtı değildir. Tarayıcıda backend yanıtı yerine canlı model sonucu gösterilmedi.
+
+## Entegrasyonda kalanlar
+
+- Kağan ile FastAPI görev sınırı ve JSON alanlarının kesinleşmesi.
+- Gerçek backend adresi ve CORS izinleri.
+- Gerçek modelle başarılı yanıt, kısıt değişimi ve hata durumları.
+- Gerçek örneklerin içerik sorumlusu tarafından incelenmesi.
+- Prompt karşılaştırma sonuçları, PDF rapor, İngilizce sunum ve video.
+
+Runtime kontrolü yapısal alanları, yöntemleri ve süreyi denetler; yönergede gizli malzeme veya pedagojik hata olmadığını garanti etmez. API başarısızlığında örnek yanıta sessiz geçiş yapılmaz.

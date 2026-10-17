@@ -1,0 +1,11 @@
+{
+  "learning_objective": "Dört eş parçadan üçünü 3/4 olarak temsil eder.",
+  "student_age": 9,
+  "duration_minutes_per_activity": 10,
+  "available_materials": ["1 kâğıt", "1 kalem", "8 aynı boy taş"],
+  "access": {
+    "internet": false,
+    "screen": false,
+    "printer": false
+  }
+}

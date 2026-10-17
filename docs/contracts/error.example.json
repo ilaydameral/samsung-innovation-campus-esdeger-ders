@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Lütfen eksik veya geçersiz alanları düzeltin.",
+    "field_errors": [
+      {
+        "field": "learning_objective",
+        "message": "Kazanım boş bırakılamaz."
+      }
+    ]
+  }
+}
