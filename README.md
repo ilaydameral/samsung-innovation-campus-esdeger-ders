@@ -88,6 +88,10 @@ SDK ve model belgeleri: [Google Gen AI SDK](https://googleapis.github.io/python-
 - `docs/contracts/`: ilk frontend sözleşme taslağı; mevcut wire sözleşmesi için `docs/BACKEND_ENTEGRASYON.md` kullanın.
 - `docs/ENTEGRASYON_1700.md`: toplantı ve birleştirme kontrol listesi.
 
+## Test kaydı
+
+Frontend kapsamındaki otomatik, tarayıcı ve canlı denemeler: [Frontend test raporu](docs/FRONTEND_TEST_RAPORU.md). Kontrollü test verileri ile gerçek Gemini denemeleri ayrı belirtilmiştir.
+
 ## Eğitim ve etik
 
 Ana bağ SDG 4’tür. Kaynak kısıtlarında aynı kazanımı koruma hedeflenir; öğrenme veya eşitsizlikte azalma henüz ölçülmedi. Etkinlikler ve cevaplar öğretmen incelemesi gerektirir. Öğrenci adı, tanı veya özel belge toplanmaz. Şema ve süre kontrolü, adımlardaki bütün malzeme hatalarını ya da pedagojik yanlışları tespit etmez.
