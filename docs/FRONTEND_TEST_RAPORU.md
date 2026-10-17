@@ -55,7 +55,7 @@ Yanıt: okuma/işaretleme, kâğıtta sınıflandırma ve sözlü/bedensel ayrı
 Önceki gerçek 3/4 üretimi, taş çıkarma ve canlı önce/sonra karşılaştırması `BACKEND_ENTEGRASYON.md` içinde kayıtlıdır. Bu tur karşılaştırmanın hazırlık/geri dönüş sınırları kayıtlı örnekle ayrıca kontrol edildi; tekrar gerçek uyarlama çağrısı yapılmadı.
 
 ## Açık sınırlar ve ekip devri
-- Fiziksel yazdırma veya tarayıcıdan kaydedilmiş PDF’nin son sayfa düzeni bu tur doğrulanmadı. Önizleme ve öğrenci/öğretmen veri ayrımı doğrulandı. Demo öncesinde kullanılan tarayıcıyla bir kez PDF kaydedilip gözle kontrol edilmeli.
+- Chrome üzerinden gerçek PDF kaydı aşağıdaki ek kontrolde tamamlandı. Fiziksel yazıcı ve diğer tarayıcıların baskı düzeni sınanmadı; canlı modelin farklı uzunluktaki yanıtları için sabit sayfa sayısı garantisi yoktur.
 - Cümle içeriğinin pedagojik kalitesi, tüm kısıtların anlamsal uygunluğu ve öğrenme eşdeğerliği otomatik onaylanmaz. Önceki model içerik hataları geçerliliğini korur; prompt/içerik iyileştirmeleri için Kağan bu kayıtların üstüne devam edebilir.
 - Ağ/kota/zaman aşımı gibi hata testleri bu tur kontrollü transport ile yapıldı; gerçek hizmette bu hatalar bilerek üretilmedi. Önceki canlı hizmet hatası ayrıca kaydedilmiştir.
 - Anahtar yalnız yerel .env içindedir; test raporunda veya commit’te yer almaz.
@@ -64,3 +64,15 @@ Kağan yeni backend değişiklikleri eklediğinde yeniden kontrol: `npm test`, `
 
 ## Ek kontrol: yapay PDF örnekleri
 Kullanıcının isteğiyle `output/pdf/` altında öğrenci (1 sayfa) ve öğretmen (2 sayfa) referans PDF’leri oluşturuldu. Aynı kayıtlı örnek ve uygulamanın gerçek `createPrintPlan` fonksiyonu kullanıldı. PDF metin ayrımı denetlendi ve üç sayfanın render edilmiş görüntüsü gözle incelendi; taşma ve eksik Türkçe karakter görülmedi. PDF’ler ReportLab ile ayrı üretildi. Bu kontrol, yukarıdaki tarayıcıdan PDF kaydetme kontrolünü tamamlanmış saymaz; veri ayrımı ve bu referans dosyaların düzenini doğrular. Açıklamalar `output/pdf/README.md` içindedir.
+
+
+## Ek kontrol: uygulamadan gerçek Chrome PDF kaydı
+17 Ekim 2026: Yerel uygulamanın “Çıktı hazırla → Yazdır / PDF” akışı ve Chrome’un “Save as PDF” penceresi kullanılarak iki dosya kaydedildi. Kayıtlı 3/4 örneği kullanıldı; bu tur yeni Gemini çağrısı yapılmadı. Ayarlar: tüm sayfalar, sayfa başına 1, varsayılan kenar boşluğu, tarayıcı üst/altbilgileri kapalı, arka plan grafikleri kapalı. Kaydedilen dosyalar yaklaşık 595 × 841.9 pt A4; üretici Skia/PDF m154.
+
+- Öğrenci: 1 sayfa. Ekrandaki cevap anahtarı açıkken başlatıldı; PDF’de cevap anahtarı, çözüm adımları, hedef kazanım ve 3/4 yanıtı bulunmadı. Ortak soru, cevap çizgileri ve kayıtlı örnek kaynak etiketi korundu.
+- Öğretmen: 2 sayfa. Ekranda yalnız kısa metin yöntemi filtreliyken başlatıldı; PDF’de üç etkinlik, ortak soru, cevap anahtarı, ölçütler ve öğretmen notları korundu.
+- Gerçek baskıda ilk öğretmen denemesi yalnız altbilginin üçüncü sayfaya taşmasına neden oldu. Sadece baskı CSS’inde metin/boşluk ölçüleri düzenlendi ve etkinlik bölümlerine sayfa içinde birlikte kalma tercihi eklendi. Yeniden kayıtta iki sayfa elde edildi; üçüncü etkinlik ikinci sayfada bütünüyle başlıyor. Bu sayı bu örnek içindir.
+- Her iki son PDF yeniden açıldı, metin ayrımı ve sayfa sayıları denetlendi; toplam üç sayfa PNG’ye çevrilip görsel olarak incelendi. Kesilmiş metin, üst üste binme veya görünür eksik Türkçe karakter görülmedi. Bazı başlıklarda pypdf metin çıkarımı harflerin arasına fazladan boşluk koyuyor; görsel baskıda bu sorun yok.
+- Dosyalar: `output/pdf/esdeger-ogrenci-chrome.pdf` ve `output/pdf/esdeger-ogretmen-chrome.pdf`. Önceki `*-test.pdf` dosyaları ayrı ReportLab referanslarıdır.
+
+Son baskı CSS değişikliğinden sonra `npm test` (38/38 geçti) ve `npm run build` (başarılı) yeniden çalıştırıldı. Pedagojik doğruluk ve öğrenme etkisi hakkında önceki sınırlar geçerlidir.
