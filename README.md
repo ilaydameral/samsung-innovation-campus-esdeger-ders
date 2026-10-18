@@ -98,6 +98,8 @@ Ana bağ SDG 4’tür. Kaynak kısıtlarında aynı kazanımı koruma hedeflenir
 
 ## Teslim hazırlığı
 
+[English project report (2-page PDF)](docs/EsdegerDers_Project_Report_EN.pdf) - problem, SDG bağlantısı, model ve prompt tasarımı, test sonuçları ve etik değerlendirme.
+
 Hackathon planına göre kod/prompt/README içeren GitHub reposu, repoda 1–2 sayfalık PDF rapor, İngilizce sunum ve yaklaşık beş dakikalık İngilizce sunum + canlı demo videosu hazırlanacak. Bu frontend klasörü bunların tamamının hazır olduğu anlamına gelmez. Teknik akış birleştirildikten sonra test sonuçları ve promptlar gerçek kayıtlardan eklenecek.
 
 GitHub reposu: https://github.com/ilaydameral/samsung-innovation-campus-esdeger-ders — başlangıç erişimi özel. İlk çalışma dalı `frontend`.
