@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="6" failures="0" errors="0" time="0.6012086">
+    <testsuite name="qa/App.spec.tsx" timestamp="2026-10-18T13:58:19.537Z" hostname="DESKTOP-OOIF1VU" tests="6" failures="0" errors="0" skipped="0" time="0.6012086">
+        <testcase classname="qa/App.spec.tsx" name="P4-C01 empty objective displays field validation without API request" time="0.141603">
+        </testcase>
+        <testcase classname="qa/App.spec.tsx" name="P4-C02 loading disables form and submit, cancellation ignores late response" time="0.0800792">
+        </testcase>
+        <testcase classname="qa/App.spec.tsx" name="P4-C03 editing objective removes previous result" time="0.1085205">
+        </testcase>
+        <testcase classname="qa/App.spec.tsx" name="P4-C04 failure is visible and resubmission recovers" time="0.1372631">
+        </testcase>
+        <testcase classname="qa/App.spec.tsx" name="P4-C05 switching mode clears sample result" time="0.0990058">
+        </testcase>
+        <testcase classname="qa/App.spec.tsx" name="P4-C06 60 second timeout shows error and aborts signal" time="0.0335642">
+        </testcase>
+    </testsuite>
+</testsuites>

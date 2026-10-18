@@ -1,0 +1,61 @@
+{
+  "recorded_at_utc": "2026-10-18T14:18:33.997765+00:00",
+  "commit": null,
+  "source_digest": "f05dad630300d0df1cbb7751ff850c4c17d6ba8c4f23bd99b9b4cdd7e79c542f",
+  "scope": "Available local snapshot; latest team revision unverified",
+  "health_http_status": 200,
+  "model_configured": false,
+  "model": "gemini-3.8-flash",
+  "cases": [
+    {
+      "name": "basic_generation",
+      "status": "BLOCKED",
+      "request": {
+        "kazanim": "Dört eş parçadan üçünü 3/4 olarak temsil eder.",
+        "yas_seviye": "9 yaş",
+        "malzemeler": [
+          "1 kâğıt",
+          "1 kalem",
+          "8 aynı boy taş"
+        ],
+        "sure_dakika": 10,
+        "erisim_kosullari": "İnternet yok, ekran yok, yazıcı yok.",
+        "prompt_version": "v2"
+      }
+    },
+    {
+      "name": "reduced_materials",
+      "status": "BLOCKED",
+      "request": {
+        "kazanim": "Dört eş parçadan üçünü 3/4 olarak temsil eder.",
+        "yas_seviye": "9 yaş",
+        "malzemeler": [
+          "1 kâğıt",
+          "1 kalem"
+        ],
+        "sure_dakika": 10,
+        "erisim_kosullari": "İnternet yok, ekran yok, yazıcı yok.",
+        "prompt_version": "v2"
+      }
+    },
+    {
+      "name": "retry_after_error",
+      "status": "BLOCKED",
+      "request": {
+        "kazanim": "Dört eş parçadan üçünü 3/4 olarak temsil eder.",
+        "yas_seviye": "9 yaş",
+        "malzemeler": [
+          "1 kâğıt",
+          "1 kalem",
+          "8 aynı boy taş"
+        ],
+        "sure_dakika": 10,
+        "erisim_kosullari": "İnternet yok, ekran yok, yazıcı yok.",
+        "prompt_version": "v2"
+      }
+    }
+  ],
+  "external_teacher_approval": false,
+  "screenshot": null,
+  "reason": "MODEL_NOT_CONFIGURED"
+}

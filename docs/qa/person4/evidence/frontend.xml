@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="removing a resource preserves objective, age, duration and access without mutating original" time="0.003566" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\adaptation.test.ts"/>
+	<testcase name="all materials can be removed without substituting unrequested resources" time="0.000323" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\adaptation.test.ts"/>
+	<testcase name="empty and nonexistent selections are rejected" time="0.000456" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\adaptation.test.ts"/>
+	<testcase name="request maps current conditions without inventing grade or multiplying duration" time="0.002267" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\backendAdapter.test.ts"/>
+	<testcase name="shared backend fixture becomes complete UI activities and assessment" time="0.002986" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\backendAdapter.test.ts"/>
+	<testcase name="wrong objective cannot be hidden by mapping the request objective into the response" time="0.001202" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\backendAdapter.test.ts"/>
+	<testcase name="unknown or repeated methods and excess duration remain invalid" time="0.003259" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\backendAdapter.test.ts"/>
+	<testcase name="documented Turkish method labels are mapped without relying on array order" time="0.002038" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\backendAdapter.test.ts"/>
+	<testcase name="missing assessment and wrong response envelope are rejected" time="0.001998" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\backendAdapter.test.ts"/>
+	<testcase name="live client posts reduced conditions to the agreed endpoint and maps the full response" time="0.072437" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\backendClient.test.ts"/>
+	<testcase name="network failure cannot silently return a sample success" time="0.000576" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\backendClient.test.ts"/>
+	<testcase name="non JSON and schema-invalid successes are distinct failures" time="0.000670" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\backendClient.test.ts"/>
+	<testcase name="validation errors preserve only well formed field entries" time="0.001259" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\backendClient.test.ts"/>
+	<testcase name="quota, missing key, timeout and auth errors stay actionable without raw provider details" time="0.001130" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\backendClient.test.ts"/>
+	<testcase name="unknown server errors use a local generic message" time="0.000446" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\backendClient.test.ts"/>
+	<testcase name="already aborted requests do not reach the network" time="0.000456" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\backendClient.test.ts"/>
+	<testcase name="abort during response body reading stays cancellation rather than invalid JSON" time="0.000286" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\backendClient.test.ts"/>
+	<testcase name="reference scenario reports matching materials with no closed-resource mentions" time="0.005937" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\classroomReview.test.ts"/>
+	<testcase name="unlisted materials and increased quantities remain visible for review" time="0.004474" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\classroomReview.test.ts"/>
+	<testcase name="whitespace and Turkish casing do not cause false material mismatches" time="0.002056" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\classroomReview.test.ts"/>
+	<testcase name="closed resources mentioned only in steps are surfaced; allowed resources are not flagged" time="0.001834" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\classroomReview.test.ts"/>
+	<testcase name="negated resource mentions remain review prompts rather than automatic rejection" time="0.001669" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\classroomReview.test.ts"/>
+	<testcase name="review requires a chosen method and exactly three explicit checks" time="0.000270" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\classroomReview.test.ts"/>
+	<testcase name="pending comparison never substitutes old activities for the missing new answer" time="0.001524" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\comparison.test.ts"/>
+	<testcase name="methods are paired by method even when response ordering and IDs change" time="0.001559" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\comparison.test.ts"/>
+	<testcase name="changed objectives and changed common questions are reported without scoring equivalence" time="0.000739" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\comparison.test.ts"/>
+	<testcase name="P4-F01 long objective must be bounded (QA acceptance)" time="0.015386" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\person4.test.ts" failure="The expression evaluated to a falsy value:&#10;&#10;  assert.ok(validateRequest({...input,learning_objective:'x'.repeat(100001)}).length>0)&#10;">
+		<failure type="testCodeFailure" message="The expression evaluated to a falsy value:&#10;&#10;  assert.ok(validateRequest({...input,learning_objective:'x'.repeat(100001)}).length>0)">
+[Error [ERR_TEST_FAILURE]: The expression evaluated to a falsy value:
+
+  assert.ok(validateRequest({...input,learning_objective:'x'.repeat(100001)}).length>0)
+] {
+  code: 'ERR_TEST_FAILURE',
+  failureType: 'testCodeFailure',
+  cause: AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(validateRequest({...input,learning_objective:'x'.repeat(100001)}).length>0)
+  
+      at TestContext.&lt;anonymous> (file:///C:/Users/casper/Documents/Codex/2026-10-18/files-mentioned-by-the-user-samsung/work/source/samsung-innovation-campus-esdeger-ders-frontend/frontend/tests/person4.test.ts:11:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+}
+		</failure>
+	</testcase>
+	<testcase name="P4-F02 reduced paper/pencil plan surfaces stone warning" time="0.002423" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\person4.test.ts"/>
+	<testcase name="P4-F03 resource review catches prohibited video in every method" time="0.000862" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\person4.test.ts"/>
+	<testcase name="P4-F04 manual retry recovers; no automatic retry" time="0.027840" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\person4.test.ts"/>
+	<testcase name="student sheet excludes answer, criteria, teacher notes and revealing activity steps" time="0.001877" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\print.test.ts"/>
+	<testcase name="teacher plan retains all methods and complete assessment independently of screen filters" time="0.001709" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\print.test.ts"/>
+	<testcase name="mock source remains explicit for both print audiences; live carries review notice" time="0.000763" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\print.test.ts"/>
+	<testcase name="agreed request and complete example are accepted" time="0.002479" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\validation.test.ts"/>
+	<testcase name="blank objective, NaN age, and nonpositive duration are reported" time="0.000273" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\validation.test.ts"/>
+	<testcase name="fractional ages and durations are rejected, empty materials allowed" time="0.000134" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\validation.test.ts"/>
+	<testcase name="null and partial model output cannot be shown as success" time="0.000279" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\validation.test.ts"/>
+	<testcase name="a different objective cannot be passed off as the requested result" time="0.000807" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\validation.test.ts"/>
+	<testcase name="exactly three distinct methods and IDs are required" time="0.001890" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\validation.test.ts"/>
+	<testcase name="durations exceeding the request or invalid values are rejected" time="0.000486" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\validation.test.ts"/>
+	<testcase name="empty steps and missing answer key are rejected" time="0.000638" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\validation.test.ts"/>
+	<testcase name="optional list contents are still validated" time="0.000862" classname="test" file="C:\Users\casper\Documents\Codex\2026-10-18\files-mentioned-by-the-user-samsung\work\source\samsung-innovation-campus-esdeger-ders-frontend\frontend\tests\validation.test.ts"/>
+	<!-- tests 42 -->
+	<!-- suites 0 -->
+	<!-- pass 41 -->
+	<!-- fail 1 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 373.5162 -->
+</testsuites>

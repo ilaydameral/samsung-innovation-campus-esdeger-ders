@@ -1,0 +1,107 @@
+[
+  {
+    "archive_entry": "Kisi4_QA_Guncel/QA_TESLIM_OZETI.md",
+    "repository_file": "docs/qa/person4/QA_TESLIM_OZETI.md",
+    "sha256": "b43e09a9f4a2edb440966262c11af98d8bdc8ce5a95442857b54d3bd803f0e9c"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/TEST_PLAN.md",
+    "repository_file": "docs/qa/person4/TEST_PLAN.md",
+    "sha256": "f5494a7d1389f9379a09251566c3abd24dc04336c5d6fa14534a5a4c65fe8624"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/TEST_RESULTS.md",
+    "repository_file": "docs/qa/person4/TEST_RESULTS.md",
+    "sha256": "fecba31a41ee9edab5572f25be28171fd656f5a88c3eb618f4fd32df942a7f46"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/TEST_MATRIX.md",
+    "repository_file": "docs/qa/person4/TEST_MATRIX.md",
+    "sha256": "a9939388c77135d29bce46c786ca3fcab3f97dd4ecfdcce313b40ad1d1f442b9"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/TEST_MATRIX.csv",
+    "repository_file": "docs/qa/person4/TEST_MATRIX.csv",
+    "sha256": "dc135f1db28bac5faef64105d125731b227920150cf41c31015dac0673ae55b6"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/BUG_REPORT.md",
+    "repository_file": "docs/qa/person4/BUG_REPORT.md",
+    "sha256": "f4b0297459a176b75a8ecb7fd4f71b549f17ecce5c59dab34104c760ddf2c78e"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/BUG_REPORT.csv",
+    "repository_file": "docs/qa/person4/BUG_REPORT.csv",
+    "sha256": "873c443962c846639be9b26c3e1147a43660aecf778140514c86325ff2b46132"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/ETHICAL_EVALUATION.md",
+    "repository_file": "docs/qa/person4/ETHICAL_EVALUATION.md",
+    "sha256": "dd3e761aff63317ff00130c60e71e53ec6873d2199ab66996ee7071447b8bfe7"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/KNOWN_LIMITATIONS.md",
+    "repository_file": "docs/qa/person4/KNOWN_LIMITATIONS.md",
+    "sha256": "2bd24f915909e00d805ffa7690550c6f18b92106d26848b05edfeafb7f274f58"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/SON_DEMO_KONTROLU.md",
+    "repository_file": "docs/qa/person4/SON_DEMO_KONTROLU.md",
+    "sha256": "ee4f81da2093cc58cab6fe4cb0129aba886f8ac3be1a0decdc0be050abe453cc"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/HEDEFLI_RETEST.csv",
+    "repository_file": "docs/qa/person4/HEDEFLI_RETEST.csv",
+    "sha256": "aeb3728b8ae49644afd4e751c0992b5dd62958d017ca5619a2452040c7a6d3d6"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/person3_findings.json",
+    "repository_file": "docs/qa/person4/person3_findings.json",
+    "sha256": "30eba5dda706e43a601c4e0b4005af6a3b690d9f955317399f4ccf1335f0f553"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/evidence/frontend.xml",
+    "repository_file": "docs/qa/person4/evidence/frontend.xml",
+    "sha256": "856949f475d211158b68f81ec3eb669f28df49aace9d77a9afb78951cb2d0c6b"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/evidence/backend.xml",
+    "repository_file": "docs/qa/person4/evidence/backend.xml",
+    "sha256": "c30f32d4386cb97c413a8847675d0038de3dafdf39ab5da58fe0d0b8b8a8b8aa"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/evidence/components.xml",
+    "repository_file": "docs/qa/person4/evidence/components.xml",
+    "sha256": "5b57d5c304607ed70bc82671a54f5fa4f04a84e818096357f18304e5c5b9ee22"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/evidence/metrics.json",
+    "repository_file": "docs/qa/person4/evidence/metrics.json",
+    "sha256": "34f238ff4eb2ee94f03887180fa55680834e54666fe1bc65b444c1a414b3f163"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/evidence/exits.json",
+    "repository_file": "docs/qa/person4/evidence/exits.json",
+    "sha256": "13e67c44335e77c9c3d5f0bdc29623ba075c329f0b6480397ff2e23b667fedaf"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/evidence/build.log",
+    "repository_file": "docs/qa/person4/evidence/build.log",
+    "sha256": "9d69302647b42f8f4235984674b6daec7db594ce1a8a92e308c975c51b02fb1f"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/evidence/environment.json",
+    "repository_file": "docs/qa/person4/evidence/environment.json",
+    "sha256": "b8b0d9791a5eeac9db529460870c81a8a441bebd7d77962b6081a8734f44d26a"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/evidence/source-sha256.csv",
+    "repository_file": "docs/qa/person4/evidence/source-sha256.csv",
+    "sha256": "30127093ff6bd6e23ed39ff67d8c08ce4a6ffbd3f43f83de01b4232e4a3ce906"
+  },
+  {
+    "archive_entry": "Kisi4_QA_Guncel/docs/evidence/feedback-live-smoke-retry.json",
+    "repository_file": "docs/qa/person4/evidence/feedback-live-smoke-retry.json",
+    "sha256": "3e9642c04d3807e57f47d10d42e87bd5f210d1146a75ef0a576d5e3294cf21b4"
+  }
+]

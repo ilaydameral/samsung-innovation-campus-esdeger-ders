@@ -1,0 +1,12 @@
+{
+  "planned": 106,
+  "executed": 82,
+  "PASS": 74,
+  "FAIL": 8,
+  "BLOCKED": 13,
+  "NOT RUN": 11,
+  "success_rate": 90.24,
+  "open_critical": 0,
+  "product_retests": 0,
+  "retests": 1
+}

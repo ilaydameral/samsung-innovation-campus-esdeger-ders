@@ -1,0 +1,32 @@
+[
+  {
+    "Bug ID": "P3-01",
+    "İlgili Test ID": "PED-01, PED-02",
+    "Açıklama": "Su döngüsü açıklamasına ilişkin içerik bildirimi",
+    "Test girdisi": "Tam girdi ve model çıktısı sağlanmadı.",
+    "Beklenen davranış": "Kişi 3 tam çıktı, gerekçe, tarih ve sürümle kontrol eder.",
+    "Gerçek davranış": "Değerlendirme notu sayfa 2 konuyu anıyor. Özgün çıktı/sürüm/commit bilinmiyor; bu tur yeniden üretilmedi.",
+    "Önem derecesi": "TBD",
+    "İlgili bileşen": "Üretilen eğitim içeriği; tam bileşen belirlenemedi",
+    "Sorumlu ekip üyesi": "Kişi 3 içerik incelemesi; Kişi 2/Kağan prompt ve üretim",
+    "Durum": "EVIDENCE PENDING",
+    "Düzeltme bilgisi": "Düzeltme kanıtı sağlanmadı.",
+    "Retest sonucu": "NOT RUN",
+    "Kanıt": "evidence/feedback-source.txt (PDF sayfa 2); özgün Kişi 3 raporu bekleniyor."
+  },
+  {
+    "Bug ID": "P3-02",
+    "İlgili Test ID": "PED-01, PED-07, PED-08",
+    "Açıklama": "Yönler sorusunun kapsamına ilişkin içerik bildirimi",
+    "Test girdisi": "Tam girdi ve model çıktısı sağlanmadı.",
+    "Beklenen davranış": "Kişi 3 tam çıktı, gerekçe, tarih ve sürümle kontrol eder.",
+    "Gerçek davranış": "Değerlendirme notu sayfa 2 konuyu anıyor. Özgün çıktı/sürüm/commit bilinmiyor; bu tur yeniden üretilmedi.",
+    "Önem derecesi": "TBD",
+    "İlgili bileşen": "Üretilen eğitim içeriği; tam bileşen belirlenemedi",
+    "Sorumlu ekip üyesi": "Kişi 3 içerik incelemesi; Kişi 2/Kağan prompt ve üretim",
+    "Durum": "EVIDENCE PENDING",
+    "Düzeltme bilgisi": "Düzeltme kanıtı sağlanmadı.",
+    "Retest sonucu": "NOT RUN",
+    "Kanıt": "evidence/feedback-source.txt (PDF sayfa 2); özgün Kişi 3 raporu bekleniyor."
+  }
+]

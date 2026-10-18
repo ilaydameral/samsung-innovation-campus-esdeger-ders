@@ -94,6 +94,8 @@ Frontend kapsamındaki otomatik, tarayıcı ve canlı denemeler: [Frontend test 
 
 ## Eğitim ve etik
 
+[Ekip içerik incelemesi, QA kanıtları ve etik değerlendirme](docs/qa/README.md) - 3. kişinin özgün raporu, 4. kişinin test sonuçları/matrisi, açık hata kayıtları ve etik değerlendirme. Bunlar ayrı koşuların destek belgeleridir; son sürümde bütün testlerin geçtiği anlamına gelmez.
+
 Ana bağ SDG 4’tür. Kaynak kısıtlarında aynı kazanımı koruma hedeflenir; öğrenme veya eşitsizlikte azalma henüz ölçülmedi. Etkinlikler ve cevaplar öğretmen incelemesi gerektirir. Öğrenci adı, tanı veya özel belge toplanmaz. Şema ve süre kontrolü, adımlardaki bütün malzeme hatalarını ya da pedagojik yanlışları tespit etmez.
 
 ## Teslim hazırlığı
