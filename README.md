@@ -92,6 +92,9 @@ SDK ve model belgeleri: [Google Gen AI SDK](https://googleapis.github.io/python-
 
 Frontend kapsamındaki otomatik, tarayıcı ve canlı denemeler: [Frontend test raporu](docs/FRONTEND_TEST_RAPORU.md). Kontrollü test verileri ile gerçek Gemini denemeleri ayrı belirtilmiştir.
 
+
+Son sürümdeki küçük düzeltmeler ve ayrı regresyon koşusu: [Final version review](docs/FINAL_VERSION_REVIEW.md).
+
 ## Eğitim ve etik
 
 [Ekip içerik incelemesi, QA kanıtları ve etik değerlendirme](docs/qa/README.md) - 3. kişinin özgün raporu, 4. kişinin test sonuçları/matrisi, açık hata kayıtları ve etik değerlendirme. Bunlar ayrı koşuların destek belgeleridir; son sürümde bütün testlerin geçtiği anlamına gelmez.
@@ -102,7 +105,7 @@ Ana bağ SDG 4’tür. Kaynak kısıtlarında aynı kazanımı koruma hedeflenir
 
 [English project report (2-page PDF)](docs/EsdegerDers_Project_Report_EN.pdf) - problem, SDG bağlantısı, model ve prompt tasarımı, test sonuçları ve etik değerlendirme.
 
-Hackathon planına göre kod/prompt/README içeren GitHub reposu, repoda 1–2 sayfalık PDF rapor, İngilizce sunum ve yaklaşık beş dakikalık İngilizce sunum + canlı demo videosu hazırlanacak. Bu frontend klasörü bunların tamamının hazır olduğu anlamına gelmez. Teknik akış birleştirildikten sonra test sonuçları ve promptlar gerçek kayıtlardan eklenecek.
+Kod, promptlar, çalıştırma README’si, iki sayfalık İngilizce PDF rapor ve ekip QA belgeleri repodadır. İngilizce sunum ve yaklaşık beş dakikalık İngilizce sunum + canlı demo videosunun son bağlantıları teslim formuna eklenmelidir. Video öncesinde kullanılan son sürümde demo içeriği kontrol edilmelidir.
 
 GitHub reposu: https://github.com/ilaydameral/samsung-innovation-campus-esdeger-ders — başlangıç erişimi özel. İlk çalışma dalı `frontend`.
 

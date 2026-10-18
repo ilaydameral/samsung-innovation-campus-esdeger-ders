@@ -1,4 +1,5 @@
 import type { ActivityRequest, ActivityResponse, Method } from '../types.ts'
+import { normalizeMaterial } from './materials.ts'
 
 const normalize = (text: string) => text.normalize('NFC').toLocaleLowerCase('tr-TR').trim().replace(/\s+/g, ' ')
 const resources = [
@@ -10,9 +11,9 @@ const resources = [
 // A transparent lexical review aid, not a semantic compliance verdict.
 // Exact material matching preserves quantities; uncertain aliases need human review.
 export function reviewClassroom(request: ActivityRequest, response: ActivityResponse) {
-  const available = new Set(request.available_materials.map(normalize))
+  const available = new Set(request.available_materials.map(normalizeMaterial))
   return response.activities.map(activity => {
-    const unlistedMaterials = activity.materials_used.filter(item => !available.has(normalize(item)))
+    const unlistedMaterials = activity.materials_used.filter(item => !available.has(normalizeMaterial(item)))
     const snippets = [activity.title, ...activity.materials_used, ...activity.steps, activity.expected_student_behavior]
     const resourceMentions = resources.filter(resource => !request.access[resource.key]).flatMap(resource => {
       const excerpt = snippets.find(text => resource.pattern.test(normalize(text)))

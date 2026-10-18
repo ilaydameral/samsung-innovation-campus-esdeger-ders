@@ -12,6 +12,7 @@ import type { Section } from './components/Sidebar.tsx'
 import { Menu, LayoutDashboard } from 'lucide-react'
 import { API_BASE_URL, ENDPOINT, GenerationError, generateActivities } from './lib/api.ts'
 import { validateRequest } from './lib/validation.ts'
+import { mergeMaterials } from './lib/materials.ts'
 import sampleRequest from './data/request.example.json'
 
 const methodInfo: Record<Method, { name: string; eyebrow: string; icon: typeof BookOpen; color: string }> = {
@@ -115,7 +116,7 @@ export default function App() {
   function addMaterial() {
     const additions = material.split(/[,\n]/).map(x => x.trim()).filter(Boolean)
     if (!additions.length) return
-    update({ ...input, available_materials: [...new Set([...input.available_materials, ...additions])] })
+    update({ ...input, available_materials: mergeMaterials(input.available_materials, additions) })
     setMaterial('')
   }
   function cancel() {

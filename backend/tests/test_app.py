@@ -9,7 +9,7 @@ from fastapi.testclient import TestClient
 from google.genai.errors import APIError
 
 module = importlib.import_module('backend.app')
-fixture = json.loads((Path(__file__).parent / 'fixtures/response.json').read_text())
+fixture = json.loads((Path(__file__).parent / 'fixtures/response.json').read_text(encoding='utf-8'))
 payload = {'kazanim': fixture['etkinlikler'][0]['hedef_kazanim'], 'yas_seviye': '9 yaş',
            'malzemeler': ['1 kâğıt', '1 kalem', '8 aynı boy taş'], 'sure_dakika': 10,
            'erisim_kosullari': 'İnternet yok, ekran yok, yazıcı yok.', 'prompt_version': 'v2'}
